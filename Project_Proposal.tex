@@ -1,5 +1,6 @@
 \documentclass[sigconf]{acmart}
-
+\usepackage{tabulary}
+\usepackage{booktabs}
 %%
 %% \BibTeX command to typeset BibTeX logo in the docs
 \AtBeginDocument{%
@@ -97,7 +98,7 @@
 \begin{abstract}
 Energy forecasting is a vital part of today's energy markets and operations. It is used to set the cost of electricity, determine when power generation should be increased, or decide when power needs to be directed to or from other regions of the electrical grid. Electrical energy demand continues to rise, especially with the recent widespread adoption of electric vehicles. As a result, the electrical grid will need to become more robust and adaptive as this transition away from fossil fuels and into a more diversified energy market occurs. This makes forecasting predictions of electrical loads and generation that much more important and it is necessary to research the differences in forecasting applications and relevance in various short-term, medium-term, and long-term settings.
 
-The time series forecasting techniques in use today each have their own strengths and weaknesses. Autoregressive Integrated Moving Average (ARIMA) and Exponential Smoothing models tend to be useful in short-term forecasts, but machine learning techniques such as Gradient Boosting Machines or XGBoost and Long Short-Term Memory (LSTM) network models tend to excel at longer-term forecasts. By evaluating each forecasting technique's accuracy across various time windows, or forecasting horizons, the results show which techniques are most relevant within the energy grid context and for what application domain.
+The time series forecasting techniques in use today each have their own strengths and weaknesses. Autoregressive Integrated Moving Average (ARIMA) and Exponential Smoothing models tend to be useful in short-term forecasts, but machine learning techniques such as Gradient Boosting Machines or XGBoost and Long Short-Term Memory (LSTM) network models tend to excel at longer-term forecasts. By evaluating each forecasting technique's accuracy across various context windows and forecasting horizons, the results show which techniques are most relevant within the energy grid context and for what application domain.
 \end{abstract}
 
 %%
@@ -170,7 +171,38 @@ Energy forecasting is an important task to not only determine the expected load 
 
 Electricity generation has always been mostly an on-demand industry and largely continues to be, where the energy we generate needs to be transmitted in used within a short period of time because we lack efficient systems for energy storage at scale.[x] This fact presents additional complications when the majority of renewable energies only work in certain conditions, making its effective use more reliant on forecasting than traditional energy generation technologies. However, this means with accurate forecasting, we can reduce reliance on fossil-fuel energies by more efficiently filling in gaps of energy demands with renewables.
 
+\begin{table}
+\centering
+\caption{Defining prediction forecast horizons. The forecast horizon determines how far into the future a forecast model predicts.}
+\begin{tabular}{clc}
+\toprule
+\hfill No. & \hfil Forecast Horizon Intervals & Duration\\
+\cmidrule(lr){1-1}\cmidrule(rl){2-2}\cmidrule(rl){3-3}
+  1 & Very Short-Term & $ X < $ 1 Hour \\
+  2 & Short-Term  & 1 Hour $ \leq X < $ 1 Week  \\   
+  3 & Medium-Term & 1 Week $ < X \leq $ 1 Year  \\   
+  4 & Long-Term & $ X > $ 1 Year  \\ 
+  \bottomrule
+\end{tabular}
+\end{table}
+
+\section{Related Work}
+PLACEHOLDER
+
+\section{Proposed Work}
+PLACEHOLDER
+
+\section{Evaluation}
+PLACEHOLDER
+
+\section{Discussion}
+PLACEHOLDER
+
+\section{Conclusion}
+PLACEHOLDER
+
 \section{Appendices}
+PLACEHOLDER
 
 If your work needs an appendix, add it before the
 ``\verb|\end{document}|'' command at the conclusion of your source
@@ -198,7 +230,7 @@ To Robert, for the bagels and explaining CMYK and color spaces.
 %% The next two lines define the bibliography style to be used, and
 %% the bibliography file.
 \bibliographystyle{ACM-Reference-Format}
-\bibliography{sample-base}
+\bibliography{references}
 
 
 %%
