@@ -90,7 +90,7 @@
 %% other information printed in the page headers. This command allows
 %% the author to define a more concise list
 %% of authors' names for this purpose.
-\renewcommand{\shortauthors}{C. Hill et al.}
+\renewcommand{\shortauthors}{C. Hill}
 
 %%
 %% The abstract is a short summary of the work to be presented in the
@@ -156,7 +156,7 @@ The time series forecasting techniques in use today each have their own strength
 %% page.
 \begin{teaserfigure}
   \includegraphics[width=\textwidth]{Images/Energy_Gen_Teaser.png}
-  \caption{Energy Generated in megawatts (MW) by Fuel Type.}
+  \caption{Energy Generated in Megawatts (MW) by Fuel Type.}
   \Description{}
   \label{fig:teaser}
 \end{teaserfigure}
@@ -166,6 +166,9 @@ The time series forecasting techniques in use today each have their own strength
 %% information and builds the first part of the formatted document.
 \maketitle
 
+\section{Author's Note}
+This document is to be used as a project proposal for the beginning planning stages of the project as well as a living-document as the project progresses. Up until project completion when a new version will be created to fill in the results.
+
 \section{Introduction}
 Energy forecasting is an important task to not only determine the expected load on the energy grid and the requirements of energy providers to meet that demand by either ramping up production or diverting sources altogether. Identifying hourly, daily, and seasonal energy demands accurately has huge implications on not only the infrastructure of our energy grid but also a complex energy marketplace where prices dynamically shift based on generation supply, customer demand, and financial spot and derivative contracts which are based on energy forecasting.[x] In the past this predictive role was largely upheld with statistical point-estimate models, but with the growth of our predictive models along with the diversification of the energy grid more modern probabilistic interval forecasting techniques have begun to be used.[x] This diversification of the energy grid not only comes from a dismantling of the monopolistic qualities of the energy market in the 1990's,[x] but emerging cultural desires and improved technology in renewable energies are driving a need for a better electrical grid.[x] 
 
@@ -173,10 +176,10 @@ Electricity generation has always been mostly an on-demand industry and largely 
 
 \begin{table}
 \centering
-\caption{Defining prediction forecast horizons. The forecast horizon determines how far into the future a forecast model predicts.}
+\caption{Defining prediction forecast horizon intervals. The forecast horizon determines how far into the future a forecast model predicts.}
 \begin{tabular}{clc}
 \toprule
-\hfill No. & \hfil Forecast Horizon Intervals & Duration\\
+\hfill \textbf{No}. & \hfil \textbf{Forecast Horizon Intervals} & \textbf{Duration}\\
 \cmidrule(lr){1-1}\cmidrule(rl){2-2}\cmidrule(rl){3-3}
   1 & Very Short-Term & $ X < $ 1 Hour \\
   2 & Short-Term  & 1 Hour $ \leq X < $ 1 Week  \\   
@@ -193,10 +196,31 @@ PLACEHOLDER
 Models stemming from different statistical and machine-learning families will be trained to perform electricity load forecasting on the forecast horizons listed in Table 1. Each model's amount of compute required for training and evaluation scores will be compared on different forecast horizons. See evaluation section for more details on the specific metrics used.
 
   \subsection{Data}
-  Data was collected by the Pennsylvania-New Jersey-Maryland Interconnection (PJM). PJM is a regional electrical transmission organization which coordinates electricity transmission in all or parts of Delaware, Illinois, Indiana, Kentucky, Maryland, Michigan, New Jersey, North Carolina, Ohio, Pennsylvania, Tennessee, Virginia, West Virginia and the District of Columbia.[x] 
+  Data was collected by the Pennsylvania-New Jersey-Maryland Interconnection (PJM). PJM is a regional electrical transmission organization which coordinates electricity transmission in all or parts of Delaware, Illinois, Indiana, Kentucky, Maryland, Michigan, New Jersey, North Carolina, Ohio, Pennsylvania, Tennessee, Virginia, West Virginia and the District of Columbia.[x] A map of this can bee seen in Figure 2.
   
-  Two sources of data from PJM are being utilized here, hourly load in megawatt-hours verified by the individual electric distribution companies and hourly electrical generation aggregated by fuel type, also in megawatts. The hourly load data is flagged with geographical location data which will be leveraged to include regional weather data as a covariate in the models.
+  \begin{figure}
+    \includegraphics[width=\columnwidth]{Images/Zones.png}
+    \caption{Regional Transmission Zones Labeled by Distributor IDs.[x]}
+    \Description{}
+    \label{fig:zone}
+  \end{figure}
   
+  Two sources of data from PJM are being utilized here, hourly load in megawatt-hours verified by the individual electric distribution companies and hourly electrical generation aggregated by fuel type, also in megawatts.[x] The hourly load data is flagged with geographical location data which will be leveraged to include regional weather data as a covariate in the models. An overview of the datasets can be seen in Table 2.
+  
+\begin{table}[hbt!]
+\centering
+\caption{Dataset size and date ranges.}
+\begin{tabular}{lrl}
+\toprule
+\textbf{Dataset} & \hfil \textbf{Size (Rows)} & \textbf{Date Range} \\
+\cmidrule(rl){1-1}\cmidrule(rl){2-2}\cmidrule(rl){3-3}
+  Hourly Load & 5,446,243 & 1993/01/01 - 2024/03/27 \\
+  Hourly Generation & 783,663 & 2016/01/01 - 2024/03/28 \\   
+  Avg Hourly Weather & TBD & TBD  \\   
+  \bottomrule
+\end{tabular}
+\end{table}
+
   \subsection{Tools and Techniques}
   First these three datasets will be datetime aligned and analyzed for an outliers. The different generation sources and load data will then be analyzed and plotted for historical trends and to identify periodicity (cycles) at different context window intervals which will help set expected baselines for the forecast horizons. Once the data has been properly aggregating and aligned the data will then be split into a training, validation, and test split [METHOD TBD].
 
@@ -228,29 +252,87 @@ Pre-trained
     \item{Time Series to Vector (TS2Vec)}
 \end{itemize}
 
+Some models may require data transformation or normalization to perform effectively. These changes will be listed here.
+
 \section{Evaluation}
-PLACEHOLDER
+Symmetric Mean Absolute Percentage Error (sMAPE) will be the univariate evaluation metric used to compare all models. This will ensure comparisons of error across different models and forecasting horizons are normalized. 
+
+\begin{equation}
+\text{sMAPE} =\frac{200}{n}\sum_{i=1}^{n}\frac{\lvert y_i - \hat{y_i} \rvert}{\lvert y_i \rvert + \lvert \hat{y_i} \rvert}
+\end{equation}
+
+where $y_i$ and $\hat{y_i}$ are the actual values and forecasted values respectively, and $n$ is the number of points in the set.
+
+One possible limitation of sMAPE is if a predicted value or actual value equals zero, the metric balloons to the maximum error value, and if both equals zero, the metric is undefined. Chosen evaluation metrics often have strengths and weaknesses, and it is yet unclear if this limitation will occur here. A consideration will be made on a different choice if it does, especially since power generation by different fuel types may have a periodicity that includes zero power generation.
 
 \section{Discussion}
-PLACEHOLDER
+Discussions and analysis will be here when the project has been completed.
+
+\subsection{Project Timeline}
+
+\begin{table}[hbt!]
+\centering
+\caption{A general framework onto which the project will progress. This timeline is subject to change.}
+\begin{tabular}{ll | c | c}
+\toprule
+\textbf{Timeline} & \textbf{Agenda Item} & \hfil \textbf{Progress} & \hfil \textbf{Done} \\
+\cmidrule(rl){1-1}\cmidrule(rl){2-2}\cmidrule(rl){3-3}\cmidrule(rl){4-4}
+  Days 1 - 5 & Data Mining & \textbf{X} & \\
+  \cmidrule(rl){1-4}
+   & \hspace{3mm}Hourly Load Data & -- & \textbf{X} \\   
+   & \hspace{3mm}Hourly Generation Data & -- & \textbf{X} \\   
+   & \hspace{3mm}Weather Data & \textbf{X} & \\   
+   & Cleaning/Preprocessing & \textbf{X} & \\  
+   \cmidrule(rl){2-4} 
+   & \hspace{3mm}Datetime Alignment & \textbf{X} & \\   
+   & \hspace{3mm}Aggregate by Zones & \textbf{X} & \\   
+   & \hspace{3mm}Outlier Inspection & & \\   
+   & \hspace{3mm}Corrupted Data Removal & & \\  
+   & Exploratory Data Analysis & & \\  
+   \cmidrule(rl){2-4} 
+   & Train/Val/Test Split & & \\  
+   \cmidrule(rl){2-4} 
+  Days 6-8 & Anomaly Detection & & \\  
+   \cmidrule(rl){1-4} 
+   & Model Setup & & \\  
+   \cmidrule(rl){2-4} 
+   & \hspace{3mm}Training & & \\  
+   & \hspace{3mm}Val. Optimizations & & \\  
+   & Build Eval. Functions & & \\  
+   \cmidrule(rl){2-4} 
+  Days 9-10 & Test Results & & \\  
+  \cmidrule(rl){1-4} 
+   & Discussion & & \\
+   \cmidrule(rl){2-4}   
+   & Conclusion & & \\  
+   \cmidrule(rl){2-4} 
+  \bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Potential Challenges}
+A few challenges may arise impeding progress or causing the project to fall behind schedule are expected to be the following. 
+Generally, properly fitting the data to each proposed forecast model within the timeline maybe pose a challenge. Specifically, the neural-network architectures can take considerable time to build from the ground up without intimate knowledge and experience of their specific architectures. Also, completely fleshing out the three goals of the project on schedule may be cause for concern and need reevaluation -- anomaly detection, hourly load forecasting, and hourly energy generation forecasting.
+
+\subsection{Alternate Approaches}
+If the project is running behind the timeline a few different approaches can be considered to make the target deadlines. 
+
+\begin{enumerate}
+  \item The number of models can be reduced but leaving at least one remaining in each model family type. 
+  \item In the case of some of the neural-network based architectures and machine-learning approaches, complexity can be reduced by utilizing more out-of-the-box approaches/models. 
+  \item Instead of forecasting both hourly load usage and generation by fuel type, the scope of the project can be reduced to focus on just one of these domains.
+\end{enumerate}
 
 \section{Conclusion}
-PLACEHOLDER
+By analyzing and modeling energy time series data we can efficiently and accurately forecast into the future different interval sizes, or forecast horizons, which correspond to real-world decisions. Modern techniques in time series forecasting have reduced the errors in all forecast horizon intervals and continue to generalize those prediction abilities across many domains. This type of research and technology is necessary for the uninterrupted energy generation and distribution due to the ever-increasing demands on our energy grids.
+
+\subsection{Key Findings}
+To be completed upon project completion.
+\subsection{Future Work}
+To be completed upon project completion.
 
 \section{Appendices}
 PLACEHOLDER
-
-If your work needs an appendix, add it before the
-``\verb|\end{document}|'' command at the conclusion of your source
-document.
-
-Start the appendix with the ``\verb|appendix|'' command:
-\begin{verbatim}
-  \appendix
-\end{verbatim}
-and note that in the appendix, sections are lettered, not
-numbered. This document has two appendices, demonstrating the section
-and subsection identification method.
 
 
 %%
@@ -259,7 +341,9 @@ and subsection identification method.
 %% identification of the section in the article metadata, and the
 %% consistent spelling of the heading.
 \begin{acks}
-To Robert, for the bagels and explaining CMYK and color spaces.
+Sqyd, for always brewing the morning coffee -- I know it's 8 cups of water, now.
+
+Luna, for breaking up the hyper-focused monotony with mind-clearing afternoon walks.
 \end{acks}
 
 %%
@@ -275,33 +359,7 @@ To Robert, for the bagels and explaining CMYK and color spaces.
 
 \section{Research Methods}
 
-\subsection{Part One}
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-malesuada, quam in pulvinar varius, metus nunc fermentum urna, id
-sollicitudin purus odio sit amet enim. Aliquam ullamcorper eu ipsum
-vel mollis. Curabitur quis dictum nisl. Phasellus vel semper risus, et
-lacinia dolor. Integer ultricies commodo sem nec semper.
-
-\subsection{Part Two}
-
-Etiam commodo feugiat nisl pulvinar pellentesque. Etiam auctor sodales
-ligula, non varius nibh pulvinar semper. Suspendisse nec lectus non
-ipsum convallis congue hendrerit vitae sapien. Donec at laoreet
-eros. Vivamus non purus placerat, scelerisque diam eu, cursus
-ante. Etiam aliquam tortor auctor efficitur mattis.
-
 \section{Online Resources}
-
-Nam id fermentum dui. Suspendisse sagittis tortor a nulla mollis, in
-pulvinar ex pretium. Sed interdum orci quis metus euismod, et sagittis
-enim maximus. Vestibulum gravida massa ut felis suscipit
-congue. Quisque mattis elit a risus ultrices commodo venenatis eget
-dui. Etiam sagittis eleifend elementum.
-
-Nam interdum magna at lectus dignissim, ac dignissim lorem
-rhoncus. Maecenas eu arcu ac neque placerat aliquam. Nunc pulvinar
-massa et mattis lacinia.
 
 \end{document}
 \endinput
