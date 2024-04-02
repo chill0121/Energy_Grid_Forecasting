@@ -96,9 +96,9 @@
 %% The abstract is a short summary of the work to be presented in the
 %% article.
 \begin{abstract}
-Energy forecasting is a vital part of today's energy markets and operations. It is used to set the cost of electricity, determine when power generation should be increased, or decide when power needs to be directed to or from other regions of the electrical grid. Electrical energy demand continues to rise, especially with the recent widespread adoption of electric vehicles. As a result, the electrical grid will need to become more robust and adaptive as this transition away from fossil fuels and into a more diversified energy market occurs. This makes forecasting predictions of electrical loads and generation that much more important and it is necessary to research the differences in forecasting applications and relevance in various short-term, medium-term, and long-term settings.
+Energy forecasting is a vital part of today's energy markets and operations. It is used to set the cost of electricity, determine when power generation should be increased, and decide when power needs to be directed to or from other regions of the electrical grid. Electrical energy demand continues to rise, especially with the recent widespread adoption of electric vehicles. As a result, the electrical grid will need to become more robust and adaptive as this increase in demand comes in tandem with a transition away from fossil fuels and into a more diversified energy market  and with it, more complex cycles. These circumstances make accurate forecasting periodicity of electrical loads and generation that much more important, and it is necessary to research the differences in forecasting applications and relevance in various short-term, medium-term, and long-term settings.
 
-The time series forecasting techniques in use today each have their own strengths and weaknesses. Autoregressive Integrated Moving Average (ARIMA) and Exponential Smoothing models tend to be useful in short-term forecasts, but machine learning techniques such as Gradient Boosting Machines or XGBoost and Long Short-Term Memory (LSTM) network models tend to excel at longer-term forecasts. By evaluating each forecasting technique's accuracy across various context windows and forecasting horizons, the results show which techniques are most relevant within the energy grid context and for what application domain.
+Many of the statistical time series forecasting techniques of the past are still in use today, each with their own strengths and weaknesses, often trading compute efficiency with lesser accuracy in long-term forecast horizons. More modern machine learning models and neural network based architectures tend to generalize through forecasting horizons better, but at the cost of compute resources. Though because of the potential for complexity of energy load patterns, both categories see benefits in task-specific tuning. By evaluating each forecasting technique's accuracy across various context windows and forecasting horizons, this project presents a thorough comparison on which techniques are most relevant in the task-specific energy grid context and forecast horizons.
 \end{abstract}
 
 %%
@@ -190,9 +190,9 @@ Electricity generation has always been mostly an on-demand industry and largely 
 \end{table}
 
 \section{Related Work}
-PLACEHOLDER
+Autoregressive Integrated Moving Average (ARIMA) and Exponential Smoothing models tend to be useful in short-term forecasts, but can experience limitations modeling complex periodocity. Newer, but certainly not state-of-the-art, machine learning techniques such as Gradient Boosting Machines or XGBoost and Long Short-Term Memory (LSTM) network models tend to generalize better and excel at longer-term forecasts.
 
-\section{Proposed Work}
+\section{Method and Proposed Work}
 Models stemming from different statistical and machine-learning families will be trained to perform electricity load forecasting on the forecast horizons listed in Table 1. Each model's amount of compute required for training and evaluation scores will be compared on different forecast horizons. See evaluation section for more details on the specific metrics used.
 
   \subsection{Data}
