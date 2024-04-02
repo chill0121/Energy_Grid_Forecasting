@@ -170,9 +170,9 @@ Many of the statistical time series forecasting techniques of the past are still
 This document is to be used as a project proposal for the beginning planning stages of the project as well as a living-document as the project progresses. Up until project completion when a new version will be created to fill in the results.
 
 \section{Introduction}
-Energy forecasting is an important task to not only determine the expected load on the energy grid and the requirements of energy providers to meet that demand by either ramping up production or diverting sources altogether. Identifying hourly, daily, and seasonal energy demands accurately has huge implications on not only the infrastructure of our energy grid but also a complex energy marketplace where prices dynamically shift based on generation supply, customer demand, and financial spot and derivative contracts which are based on energy forecasting.[x] In the past this predictive role was largely upheld with statistical point-estimate models, but with the growth of our predictive models along with the diversification of the energy grid more modern probabilistic interval forecasting techniques have begun to be used.[x] This diversification of the energy grid not only comes from a dismantling of the monopolistic qualities of the energy market in the 1990's,[x] but emerging cultural desires and improved technology in renewable energies are driving a need for a better electrical grid.[x] 
+Energy forecasting is an important task to not only determine the expected load on the energy grid and the requirements of energy providers to meet that demand by either ramping up production or diverting sources altogether.\cite{Hong16} Identifying hourly, daily, and seasonal energy demands accurately has substantial impact on not only the logistics of the infrastructure of our energy grid, but also the complex energy marketplace -- where prices dynamically shift based on generation supply, customer demand, and financial spot and derivative contracts which are all based on energy forecasting.\cite{Bunn04} In the past this predictive role was largely upheld with statistical point-estimate models, but with the growth of our predictive models along with the diversification of the energy grid, more modern probabilistic interval forecasting techniques have begun to be used.\cite{Lee21, Weron14, Hong16} This diversification of the energy grid not only comes from a dismantling of the monopolistic qualities of the energy market by way of deregulating the national electric market in the 1990's, but emerging cultural desires and improved technology in renewable energies are driving a need for a better electrical grid.\cite{Joskow01}
 
-Electricity generation has always been mostly an on-demand industry and largely continues to be, where the energy we generate needs to be transmitted in used within a short period of time because we lack efficient systems for energy storage at scale.[x] This fact presents additional complications when the majority of renewable energies only work in certain conditions, making its effective use more reliant on forecasting than traditional energy generation technologies. However, this means with accurate forecasting, we can reduce reliance on fossil-fuel energies by more efficiently filling in gaps of energy demands with renewables.
+Electricity generation has always been mostly an on-demand industry and largely continues to be, where the energy we generate needs to be transmitted in used within a short period of time because we lack efficient systems for energy storage at scale.\cite{Lai21} This fact presents additional complications when the majority of renewable energies only work in certain conditions, making its effective use more reliant on forecasting than traditional energy generation technologies. However, this means with accurate forecasting, we can reduce reliance on fossil-fuel energies by more efficiently filling in gaps of energy demands with renewables.
 
 \begin{table}
 \centering
@@ -196,16 +196,16 @@ Autoregressive Integrated Moving Average (ARIMA) and Exponential Smoothing model
 Models stemming from different statistical and machine-learning families will be trained to perform electricity load forecasting on the forecast horizons listed in Table 1. Each model's amount of compute required for training and evaluation scores will be compared on different forecast horizons. See evaluation section for more details on the specific metrics used.
 
   \subsection{Data}
-  Data was collected by the Pennsylvania-New Jersey-Maryland Interconnection (PJM). PJM is a regional electrical transmission organization which coordinates electricity transmission in all or parts of Delaware, Illinois, Indiana, Kentucky, Maryland, Michigan, New Jersey, North Carolina, Ohio, Pennsylvania, Tennessee, Virginia, West Virginia and the District of Columbia.[x] A map of this can bee seen in Figure 2.
+  Data was collected by the Pennsylvania-New Jersey-Maryland Interconnection (PJM). PJM is a regional electrical transmission organization which coordinates electricity transmission in all or parts of Delaware, Illinois, Indiana, Kentucky, Maryland, Michigan, New Jersey, North Carolina, Ohio, Pennsylvania, Tennessee, Virginia, West Virginia and the District of Columbia.\cite{PJMZone24} A map of this can bee seen in Figure 2.
   
   \begin{figure}
     \includegraphics[width=\columnwidth]{Images/Zones.png}
-    \caption{Regional Transmission Zones Labeled by Distributor IDs.[x]}
+    \caption{Regional Transmission Zones Labeled by Distributor IDs.\protect \cite{PJM24}}
     \Description{}
     \label{fig:zone}
   \end{figure}
   
-  Two sources of data from PJM are being utilized here, hourly load in megawatt-hours verified by the individual electric distribution companies and hourly electrical generation aggregated by fuel type, also in megawatts.[x] The hourly load data is flagged with geographical location data which will be leveraged to include regional weather data as a covariate in the models. An overview of the datasets can be seen in Table 2.
+  Two sources of data from PJM are being utilized here, hourly load in megawatt-hours verified by the individual electric distribution companies and hourly electrical generation aggregated by fuel type, also in megawatts.\cite{PJMLoad24} The hourly load data is flagged with geographical location data which will be leveraged to include regional weather data as a covariate in the models. An overview of the datasets can be seen in Table 2.
   
 \begin{table}[hbt!]
 \centering
@@ -341,7 +341,7 @@ PLACEHOLDER
 %% identification of the section in the article metadata, and the
 %% consistent spelling of the heading.
 \begin{acks}
-Sqyd, for always brewing the morning coffee -- I know it's 8 cups of water, now.
+ \hspace{3mm} Sqyd, for always brewing the morning coffee -- I know it's 8 cups of water, now.
 
 Luna, for breaking up the hyper-focused monotony with mind-clearing afternoon walks.
 \end{acks}
@@ -350,7 +350,7 @@ Luna, for breaking up the hyper-focused monotony with mind-clearing afternoon wa
 %% The next two lines define the bibliography style to be used, and
 %% the bibliography file.
 \bibliographystyle{ACM-Reference-Format}
-\bibliography{references}
+\bibliography{References}
 
 
 %%
