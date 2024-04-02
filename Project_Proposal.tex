@@ -190,7 +190,43 @@ Electricity generation has always been mostly an on-demand industry and largely 
 PLACEHOLDER
 
 \section{Proposed Work}
-PLACEHOLDER
+Models stemming from different statistical and machine-learning families will be trained to perform electricity load forecasting on the forecast horizons listed in Table 1. Each model's amount of compute required for training and evaluation scores will be compared on different forecast horizons. See evaluation section for more details on the specific metrics used.
+
+  \subsection{Data}
+  Data was collected by the Pennsylvania-New Jersey-Maryland Interconnection (PJM). PJM is a regional electrical transmission organization which coordinates electricity transmission in all or parts of Delaware, Illinois, Indiana, Kentucky, Maryland, Michigan, New Jersey, North Carolina, Ohio, Pennsylvania, Tennessee, Virginia, West Virginia and the District of Columbia.[x] 
+  
+  Two sources of data from PJM are being utilized here, hourly load in megawatt-hours verified by the individual electric distribution companies and hourly electrical generation aggregated by fuel type, also in megawatts. The hourly load data is flagged with geographical location data which will be leveraged to include regional weather data as a covariate in the models.
+  
+  \subsection{Tools and Techniques}
+  First these three datasets will be datetime aligned and analyzed for an outliers. The different generation sources and load data will then be analyzed and plotted for historical trends and to identify periodicity (cycles) at different context window intervals which will help set expected baselines for the forecast horizons. Once the data has been properly aggregating and aligned the data will then be split into a training, validation, and test split [METHOD TBD].
+
+Models of varying complexity and methodology will be used to better represent the broad spectrum of techniques used today, and to attempt to capture a good representation of which models work best for the different forecast horizons. 
+
+\textbf{Proposed models}:
+\\
+Baseline
+\begin{itemize}
+    \item{Naive Forecast Model}
+\end{itemize}
+Statistical
+\begin{itemize}
+    \item{Autoregressive Integrated Moving Average (ARIMA)}
+    \item{Vector Autoregression (VAR)}
+\end{itemize}
+Machine Learning
+\begin{itemize}
+    \item{Support Vector Machine (SVM)}
+    \item{XGBoost}
+\end{itemize}
+Deep Learning
+\begin{itemize}
+    \item{Long Short-Term Memory (LSTM) Networks}
+    \item{Transformer Networks}
+\end{itemize}
+Pre-trained
+\begin{itemize}
+    \item{Time Series to Vector (TS2Vec)}
+\end{itemize}
 
 \section{Evaluation}
 PLACEHOLDER
