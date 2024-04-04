@@ -98,7 +98,7 @@
 \begin{abstract}
 Energy forecasting is a vital part of today's energy markets and operations. It is used to set the cost of electricity, determine when power generation should be increased, and decide when power needs to be directed to or from other regions of the electrical grid. Electrical energy demand continues to rise, especially with the recent widespread adoption of electric vehicles. As a result, the electrical grid will need to become more robust and adaptive as this increase in demand comes in tandem with a transition away from fossil fuels and into a more diversified energy market  and with it, more complex cycles. These circumstances make accurate forecasting periodicity of electrical loads and generation that much more important, and it is necessary to research the differences in forecasting applications and relevance in various short-term, medium-term, and long-term settings.
 
-Many of the statistical time series forecasting techniques of the past are still in use today, each with their own strengths and weaknesses, often trading compute efficiency with lesser accuracy in long-term forecast horizons. More modern machine learning models and neural network based architectures tend to generalize through forecasting horizons better, but at the cost of compute resources. Though because of the potential for complexity of energy load patterns, both categories see benefits in task-specific tuning. By evaluating each forecasting technique's accuracy across various context windows and forecasting horizons, this project presents a thorough comparison on which techniques are most relevant in the task-specific energy grid context and forecast horizons.
+Many of the statistical time series forecasting techniques of the past are still in use today, each with their own strengths and weaknesses, often trading compute efficiency with lesser accuracy in long-term forecast horizons. More modern machine learning models and neural network based architectures tend to generalize through forecasting horizons better, but at the cost of compute resources. Though because of the potential for complexity of energy load patterns, both categories see benefits in task-specific tuning. By evaluating each forecasting model's accuracy across various context windows and forecasting horizons, this project presents a thorough comparison on which techniques are most relevant in the task-specific energy grid context and forecast horizons.
 \end{abstract}
 
 %%
@@ -193,7 +193,7 @@ Electricity generation has always been mostly an on-demand industry and largely 
 Autoregressive Integrated Moving Average (ARIMA) and Exponential Smoothing models tend to be useful in short-term forecasts, but can experience limitations modeling complex periodocity. Newer, but certainly not state-of-the-art, machine learning techniques such as Gradient Boosting Machines or XGBoost and Long Short-Term Memory (LSTM) network models tend to generalize better and excel at longer-term forecasts.
 
 \section{Method and Proposed Work}
-Models stemming from different statistical and machine-learning families will be trained to perform electricity load forecasting on the forecast horizons listed in Table 1. Each model's amount of compute required for training and evaluation scores will be compared on different forecast horizons. See evaluation section for more details on the specific metrics used.
+Models stemming from different statistical and machine-learning families will be trained to perform electricity load forecasting as well as electricity generation by fuel type across the different forecast horizon intervals listed in Table 1. Each model's amount of compute required for training and evaluation scores will be compared across different forecast horizons. See evaluation section for more details on the specific metrics used.
 
   \subsection{Data}
   Data was collected by the Pennsylvania-New Jersey-Maryland Interconnection (PJM). PJM is a regional electrical transmission organization which coordinates electricity transmission in all or parts of Delaware, Illinois, Indiana, Kentucky, Maryland, Michigan, New Jersey, North Carolina, Ohio, Pennsylvania, Tennessee, Virginia, West Virginia and the District of Columbia.\cite{PJMZone24} A map of this can bee seen in Figure 2.
@@ -222,7 +222,7 @@ Models stemming from different statistical and machine-learning families will be
 \end{table}
 
   \subsection{Tools and Techniques}
-  First these three datasets will be datetime aligned and analyzed for an outliers. The different generation sources and load data will then be analyzed and plotted for historical trends and to identify periodicity (cycles) at different context window intervals which will help set expected baselines for the forecast horizons. Once the data has been properly aggregating and aligned the data will then be split into a training, validation, and test split [METHOD TBD].
+  First these three datasets will be datetime aligned and analyzed for an outliers. The different generation sources and load data will then be analyzed and plotted for historical trends and to identify periodicity (cycles) at different context window intervals which will help set expected baselines for the forecast horizons. Once the data has been properly aggregating and aligned the data will then be split into a training, validation, and test split.
 
 Models of varying complexity and methodology will be used to better represent the broad spectrum of techniques used today, and to attempt to capture a good representation of which models work best for the different forecast horizons. 
 
@@ -255,7 +255,12 @@ Pre-trained
 Some models may require data transformation or normalization to perform effectively. These changes will be listed here.
 
 \section{Evaluation}
-Symmetric Mean Absolute Percentage Error (sMAPE) will be the univariate evaluation metric used to compare all models. This will ensure comparisons of error across different models and forecasting horizons are normalized. 
+
+\subsection{Data Split}
+The data will be split into a roughly 70/20/10 training, validation, testing split. A validation set is necessary here because several of the proposed forecasting models will require hyperparameter tuning. Once the data has been aggregated, cleaned, and finalized the exact ratio may be adjusted to ensure the test set is large enough to span the largest forecast horizon at least one or several times, depending on what is feasible with the data on hand.
+
+\subsection{Metrics}
+Symmetric Mean Absolute Percentage Error (sMAPE) will be the evaluation metric used to compare all models. This will ensure comparisons of error across different models and forecasting horizons are normalized. 
 
 \begin{equation}
 \text{sMAPE} =\frac{200}{n}\sum_{i=1}^{n}\frac{\lvert y_i - \hat{y_i} \rvert}{\lvert y_i \rvert + \lvert \hat{y_i} \rvert}
@@ -266,7 +271,9 @@ where $y_i$ and $\hat{y_i}$ are the actual values and forecasted values respecti
 One possible limitation of sMAPE is if a predicted value or actual value equals zero, the metric balloons to the maximum error value, and if both equals zero, the metric is undefined. Chosen evaluation metrics often have strengths and weaknesses, and it is yet unclear if this limitation will occur here. A consideration will be made on a different choice if it does, especially since power generation by different fuel types may have a periodicity that includes zero power generation.
 
 \section{Discussion}
-Discussions and analysis will be here when the project has been completed.
+
+
+More discussions and analysis will be added here when the project has been completed.
 
 \subsection{Project Timeline}
 
@@ -294,7 +301,7 @@ Discussions and analysis will be here when the project has been completed.
    \cmidrule(rl){2-4} 
   Days 6-8 & Anomaly Detection & & \\  
    \cmidrule(rl){1-4} 
-   & Model Setup & & \\  
+   & Forecast Model Setup & & \\  
    \cmidrule(rl){2-4} 
    & \hspace{3mm}Training & & \\  
    & \hspace{3mm}Val. Optimizations & & \\  
