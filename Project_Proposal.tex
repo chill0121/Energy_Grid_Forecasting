@@ -170,9 +170,16 @@ Many of the statistical time series forecasting techniques of the past are still
 This document is to be used as a project proposal for the beginning planning stages of the project as well as a living-document as the project progresses. Up until project completion when a new version will be created to fill in the results.
 
 \section{Introduction}
-Energy forecasting is an important task to not only determine the expected load on the energy grid and the requirements of energy providers to meet that demand by either ramping up production or diverting sources altogether \cite{Hong16}. Identifying hourly, daily, seasonal, or even yearly energy demands accurately has substantial impact on not only the logistics of the infrastructure of our energy grid, but also the complex energy marketplace. These intervals, or forecast horizons, in the context of predictive models are defined in Table 1. Short-term forecasts can be useful for players in power markets where prices dynamically shift based on generation supply, customer demand, and financial spot and derivative contracts which are all based on energy forecasting \cite{Bunn04}. Very short-term forecasts can be important for power distributors and operators that want to meet customer demands more efficiently. Long-term forecasts are important in infrastructure planning and energy provider and distributers long-term planning. 
+Energy forecasting is an important task to not only determine the expected load on the energy grid and the requirements of energy providers to meet that demand by either ramping up production or diverting sources altogether \cite{Hong16}. Identifying hourly, daily, seasonal, or even yearly energy demands accurately has substantial impact on not only the logistics of the infrastructure of our energy grid, but also the complex energy marketplace. These intervals, or forecast horizons, in the context of predictive models are defined in Table 1. Short-term forecasts can be useful for players in power markets where prices dynamically shift based on generation supply, customer demand, and financial spot and derivative contracts which are all based on energy forecasting \cite{Bunn04}. Very short-term forecasts can be important for power distributors and operators that want to meet customer demands more efficiently. Long-term forecasts are important in infrastructure planning and energy provider and distributers long-term planning. An example of a long-term forecast can be seen in Figure 2.
 
 In the past this predictive role was largely upheld with statistical point-estimate models, but with the growth of our predictive models along with the diversification of the energy grid, more modern probabilistic interval forecasting techniques have begun to be used \cite{Lee21, Weron14, Hong16}. This diversification of the energy grid not only comes from energy reforms by way of deregulating the national electric market in the 1990's, but emerging cultural desires and improved technology in renewable energies, driving a need for a better electrical grid \cite{Joskow01}.
+
+  \begin{figure}[hbt!]
+    \includegraphics[width=\columnwidth]{Images/Forecast.png}
+    \caption{Long-Term Forecast of Natural Gas Energy Generation using Meta's Prophet model. Actual observations are represented by the blue points, forecasted fit and predictions are in teal and purple respectively.}
+    \Description{}
+    \label{fig:forecast}
+  \end{figure}
 
 Electricity generation has always been mostly an on-demand industry and largely continues to be, where the energy we generate needs to be transmitted and used within a short period of time because we lack efficient systems for energy storage at scale \cite{Lai21}. This fact presents additional complications when many renewable energies only produce energy in certain conditions, making its effective use more reliant on forecasting to navigate a more diverse and complex power grid. Additionally, with the cultural and regulatory push towards end-users adopting the use of electric appliances, electric vehicles, and heat pumps, energy demand will continue to change \cite{Archsmith22}. These circumstances mean accurate forecasting is becoming even more important with improvements having the potential to better reduce reliance on fossil-fuel energies by more efficiently filling in gaps of energy demands with a more diversified and efficient energy grid.
 
@@ -194,7 +201,7 @@ Electricity generation has always been mostly an on-demand industry and largely 
 There is little consensus among researchers and professionals about what exemplifies state-of-the-art in time series forecasting. This seems to be due to many things including that time series forecasting is heavily task-specific, meaning one model may perform well with one type of data and forecast horizon, but might perform poorly when compared to other techniques with a different horizon or data type \cite{Yue21}. This is why it is still important to experiment and compare forecasting techniques on domain-specific time series data.
 
 \section{Related Work}
-Autoregressive Integrated Moving Average (ARIMA) and Exponential Smoothing models tend to be useful in short and medium-term forecasts but can experience limitations modeling complex periodicity and interactions \cite{Muzaffar19, Hopf23}. Newer, but certainly not state-of-the-art, machine learning techniques such as Support Vector Machines, XGBoost, and a variety of Long Short-Term Memory (LSTM) network architectures tend to generalize better and excel across multiple forecast horizons \cite{Sun22, Muzaffar19}.
+Seasonal Autoregressive Integrated Moving Average (SARIMA) and Exponential Smoothing models tend to be useful in short and medium-term forecasts but can experience limitations modeling complex periodicity and interactions \cite{Muzaffar19, Hopf23}. Newer, but certainly not state-of-the-art, machine learning techniques such as Support Vector Machines, XGBoost, and a variety of Long Short-Term Memory (LSTM) network architectures tend to generalize better and excel across multiple forecast horizons \cite{Sun22, Muzaffar19}.
 
 Hybrid models and ensemble methods, utilizing a variety of preprocessing techniques and combining models into a unified framework, are becoming more popular as of late. The process typically involves splitting the job of extracting different types of features from the data, say the temporal and spatial relationships of the time series, and feeding those outputs into yet another separate model to perform the forecasting \cite{Hua23}. This technique combines the strengths of multiple models resulting in improved results across all forecast horizons \cite{Hua23, Hopf23}. Many of these still utilize LSTM layers as their attention mechanism \cite{Sun22}.
 
@@ -204,7 +211,7 @@ Transformer-based models and other frameworks developed and popularized in the L
 Several models stemming from different statistical and machine-learning families will be trained to perform electricity load forecasting as well as electricity generation by fuel type across the different forecast horizon intervals listed in Table 1. Each model's amount of compute required for training and evaluation scores will be compared across different forecast horizons. See evaluation section for more details on the specific metrics used.
 
   \subsection{Data}
-  Data was collected by the Pennsylvania-New Jersey-Maryland Interconnection (PJM). PJM is a regional electrical transmission organization which coordinates electricity transmission in all or parts of Delaware, Illinois, Indiana, Kentucky, Maryland, Michigan, New Jersey, North Carolina, Ohio, Pennsylvania, Tennessee, Virginia, West Virginia, and the District of Columbia \cite{PJMZone24}. A map of this can bee seen in Figure 2.
+  Data was collected by the Pennsylvania-New Jersey-Maryland Interconnection (PJM). PJM is a regional electrical transmission organization which coordinates electricity transmission in all or parts of Delaware, Illinois, Indiana, Kentucky, Maryland, Michigan, New Jersey, North Carolina, Ohio, Pennsylvania, Tennessee, Virginia, West Virginia, and the District of Columbia \cite{PJMZone24}. A map of this can bee seen in Figure 3.
   
   \begin{table}[hbt!]
 \centering
@@ -242,7 +249,7 @@ Baseline
 \end{itemize}
 Statistical
 \begin{itemize}
-    \item{Autoregressive Integrated Moving Average (ARIMA)}
+    \item{Seasonal Autoregressive Integrated Moving Average (SARIMA)}
     \item{Vector Autoregression (VAR)}
 \end{itemize}
 Machine Learning
