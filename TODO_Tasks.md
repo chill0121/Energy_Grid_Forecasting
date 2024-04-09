@@ -12,3 +12,6 @@
     - [] Find or analyze historical power demands.
 - [] Connect with PJM api?
 - [] Section about data leakage. (Split location, etc)
+- [] Feature engineering
+    - [] Encode Days of Week
+    - [] Encode Month
