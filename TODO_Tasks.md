@@ -17,4 +17,5 @@
     - [] Encode Month
 - [] Explore system-wide forecasts vs more granular region forecasts.
     - [] Individual forecasts for zones then add them?
+    - [] Shift data for timezone differences?
 - [] Create separate a function file for EDA, results, ect.
