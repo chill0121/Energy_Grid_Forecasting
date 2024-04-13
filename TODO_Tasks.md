@@ -19,3 +19,4 @@
     - [] Individual forecasts for zones then add them?
     - [] Shift data for timezone differences?
 - [] Create separate a function file for EDA, results, ect.
+- [] Rename columns for consistency.
