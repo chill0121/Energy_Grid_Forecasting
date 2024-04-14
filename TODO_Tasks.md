@@ -12,6 +12,8 @@
     - [] Find or analyze historical power demands.
 - [] Connect with PJM api?
 - [] Section about data leakage. (Split location, etc)
+- [] Address COVID's role in forecasting.
+    - [] Be mindful of the test split and COVID dates.
 - [] Feature engineering
     - [] Encode Days of Week
     - [] Encode Month
@@ -20,3 +22,4 @@
     - [] Shift data for timezone differences?
 - [] Create separate a function file for EDA, results, ect.
 - [] Rename columns for consistency.
+- [] Instead of replacing outliers with median, try without entirely.
