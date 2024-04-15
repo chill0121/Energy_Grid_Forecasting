@@ -23,3 +23,4 @@
 - [] Create separate a function file for EDA, results, ect.
 - [] Rename columns for consistency.
 - [] Instead of replacing outliers with median, try without entirely.
+- [] Remove any rows with NaNs resulting from lag features?
