@@ -24,3 +24,5 @@
 - [] Rename columns for consistency.
 - [] Instead of replacing outliers with median, try without entirely.
 - [] Remove any rows with NaNs resulting from lag features?
+- [] For shorter forecast horizons is a shorter period seasonal naive model better? (Not last year but last day, week, month, etc)
+- [] Model Ablations to test feature importance and cross-validate.
