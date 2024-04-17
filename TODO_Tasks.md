@@ -27,3 +27,4 @@
 - [] For shorter forecast horizons is a shorter period seasonal naive model better? (Not last year but last day, week, month, etc)
 - [] Model Ablations to test feature importance and cross-validate.
 - [] Remove leap year day?
+- [] 1H to 6H
