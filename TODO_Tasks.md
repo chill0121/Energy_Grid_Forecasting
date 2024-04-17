@@ -28,3 +28,4 @@
 - [] Model Ablations to test feature importance and cross-validate.
 - [] Remove leap year day?
 - [] 1H to 6H
+- [] Describe tradeoffs between each model and horizon.
