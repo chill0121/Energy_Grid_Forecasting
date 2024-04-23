@@ -257,7 +257,7 @@ Several models stemming from different statistical and machine-learning families
     \label{fig:fft}
   \end{figure}
   
-  \item \textbf{First and Second-Order Derivatives/Differencing} finds the instantaneous rate of change between two observed data points and the acceleration of the rate of change respectively. This encodes direction, magnitude, and change of direction in time series data. An example plot of both orders of derivatives can be seen in Figure 6 in the appendix.
+  \item \textbf{First and Second-Order Derivatives/Differencing} finds the instantaneous rate of change between two observed data points and the acceleration of the rate of change respectively. This encodes direction, magnitude, and change of direction in time series data. An example plot of both orders of derivatives can be seen in Figure 7 in the appendix.
 \end{enumerate}
 
 Specific intervals of features such as lag, rolling mean, derivatives need to be considered carefully when used as exogenous features calculated from the target variable. This can be a great source of data leakage into the testing set if these are not data you would have in a prediction setting. One method to overcome this is to take a naive approach and assign last season's values. Another is to create a hybrid model which forecasts the exogenous features to include in the forecast. Finally, a rolling forecast can be used predict new datapoints and retrain the model with those predictions up until the intended forecast horizon is achieved. Here, the shorter length interval features will be excluded to prevent data leakage, but will remain implemented but not included as an exercise in time series feature engineering.
@@ -413,11 +413,24 @@ If the project is running behind the timeline a few different approaches can be 
   \item Further reduce the scope to solely focus on anomaly detection.
 \end{enumerate}
 
+\section{Results}
+As the other models are still being worked on here is a preliminary look at the results for the baseline models and XGBoost which has been tuned and finalized.
+
+Preliminary Results:
+  \begin{figure}[hbt!]
+    \includegraphics[width=\columnwidth]{Images/Prelim_Results.png}
+    \caption{Results of the models that are completed.}
+    \Description{}
+    \label{fig:results}
+  \end{figure}
+
 \section{Conclusion}
 By analyzing and modeling energy time series data we can efficiently and accurately forecast into the future different interval forecast horizons, which correspond to real-world decisions. Depending on the time-scale in which those decisions rely, analysts must appropriately identify what side of the accuracy and efficiency tradeoff is more important in their use case. Modern techniques in time series forecasting have reduced the errors in all forecast horizon intervals and continue to generalize those prediction abilities across many domains, but many of the most accurate models take a considerable amount of time or hardware to train. This type of research and technology is necessary for uninterrupted energy generation and distribution due to the ever-increasing demands and complexity of our energy grids.
 
 \subsection{Key Findings}
-To be completed upon project completion.
+XGBoost performs surprisingly well in this domain at many forecast horizons, greatly improving over the baseline methods. On top of its performance the computational demands are very low and training takes negligible time compared to other machine learning and neural network-based methods.
+
+Once the remaining models are completed, a further comparative analysis across all horizons and methods can be completed.
 \subsection{Future Work}
 To be completed upon project completion.
 
