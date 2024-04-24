@@ -212,6 +212,7 @@ Several models stemming from different statistical and machine-learning families
 
   \subsection{Data}
   Electric load data was collected by the Pennsylvania-New Jersey-Maryland Interconnection (PJM). PJM is a regional electrical transmission organization which coordinates electricity transmission in all or parts of Delaware, Illinois, Indiana, Kentucky, Maryland, Michigan, New Jersey, North Carolina, Ohio, Pennsylvania, Tennessee, Virginia, West Virginia, and the District of Columbia \cite{PJMZone24}. A map of this can bee seen in Figure 3.
+  
   Weather data was retrieved from the National Oceanic and Atmospheric Administration's (NOAA) Regional Climate Center (RCC) Applied Climate Information System (ACIS) \cite{ACIS}. The data was manually downloaded by selecting a weather station and choosing relevant dates and features with the daily data listings form. 
   
   \begin{table}[hbt!]
@@ -228,8 +229,11 @@ Several models stemming from different statistical and machine-learning families
 \end{table}
   
   The electric load data sourced from PJM is a set of hourly load in megawatt-hours verified by the individual electric distribution companies \cite{PJMLoad24}. The hourly load data is flagged with geographical location data which will be leveraged to include regional weather data as a covariate in the models. 
+  
   The weather data has a daily sample frequency which was the only data available at the time. Hourly data would have been preferable to match the frequency of the load data, but even at the mismatched sample rate, will be a valuable exogenous covariate. Features included in this dataset are the maximum and minimum recorded temperature, average temperature, precipitation in inches. 
+  
   After data discovery, 5 zones were chosen for their sample size, variety in signal shape, and data continuity. The weather data was selected to match the zones of interest from the load dataset and along with the zone map in Figure 3, weather stations were chosen for each zone. The weather stations chosen to represent each zone were chosen under the following criteria: 1.) Weather station is geographically central to the zone. 2.) Weather station uptime and reliability (airport weather stations often chosen for this quality).
+  
   An overview of the datasets can be seen in Table 2.
   
   \begin{figure}
@@ -240,6 +244,8 @@ Several models stemming from different statistical and machine-learning families
   \end{figure}
 
   \subsection{Preprocessing}
+  The electrical load data is retrieved from PJM's Data Miner 2 and each year is downloaded into a .csv file. These .csv files are then zipped so they can be pushed to github. All data is important into Pandas dataframes as it will allow all the following data transformations to be frictionless. Also, since several different models will be used, Pandas allows us to easily reformat the data between float arrays, tensors, and otherwise.
+  
   The first step in preprocessing the datasets will be checking for any missing dates. Any missing rows will added by inserting the average value of the two surrounding observed data. Then the data will be analyzed for outliers, using a tumbling window method, replacing any identified outliers with the median of the window size. The two datasets will then be date aligned and merged.
   
     \subsection{Feature Engineering}
@@ -252,7 +258,7 @@ Several models stemming from different statistical and machine-learning families
   
     \begin{figure}[hbt!]
     \includegraphics[width=\linewidth]{Images/FFT_Plot.png}
-    \caption{Spectral density plot of the ComEd zone. To cast frequency units to days: $\frac{1}{freq*24}$.}
+    \caption{Fourier transform spectral density plot of the ComEd (CE) zone. To cast frequency units to days: $\frac{1}{freq*24}$.}
     \Description{}
     \label{fig:fft}
   \end{figure}
@@ -349,6 +355,8 @@ In conjunction with the RMSE, a Normalized RMSE (NRMSE) will also be used to com
 where $\bar{Y}$ is the mean of the actual values.
 
 \section{Discussion}
+
+After data discovery and feature engineering, during the preliminary model setup it was determined a few of the proposed models would not be moving forward to testing due to the size of the dataset and feature matrix. The ARIMA-based models, even when specified as univariate models, require substantial setup and tuning which on the machine it was being worked on became untenable. Train times for this and a few neural-network models, even with reduced training set sizes, were not able to be completed due to hardware limitations. Unfortunately these models will not move forward or will be reduced in scope at some level. These reductions and scope will be listed per model as they arise. However, this does add justification to the thesis that forecast horizon lengths and models need to be chosen at a task-specific level because lengthy training durations on short forecast horizon lengths heavily outweigh the tradeoff balance.
 
 More discussions and analysis will be added here when the project has been completed.
 
