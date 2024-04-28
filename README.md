@@ -1,7 +1,6 @@
 # Energy Grid Forecasting
- Time series forecasting on energy load data.
 
-*Statistical, machine learning, and deep learning-based methods compared across 5 time series and 6 forecast horizon lengths.*
+*Statistical, machine learning, and deep learning-based time series forecasting methods compared across 5 energy load datasets and 6 forecast horizon lengths.*
 
 ---
 
