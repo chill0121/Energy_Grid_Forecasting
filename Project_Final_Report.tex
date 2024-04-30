@@ -167,7 +167,7 @@ Many of the statistical time series forecasting techniques of the past are still
 \maketitle
 
 \section{Author's Note}
-This document is to be used as a project proposal for the beginning planning stages of the project as well as a living-document as the project progresses. Up until project completion when a new version will be created to fill in the results.
+This document is to be used as a project proposal for the beginning planning stages of the project as well as a living-document as the project progresses. Up until project completion when an updated version will be created.
 
 \section{Introduction}
 Energy forecasting is an important task to not only determine the expected load on the energy grid and the requirements of energy providers to meet that demand by either ramping up production or diverting sources altogether \cite{Hong16}. Identifying hourly, daily, seasonal, or even yearly energy demands accurately has substantial impact on not only the logistics of the infrastructure of our energy grid, but also the complex energy marketplace. These intervals, or forecast horizons, in the context of predictive models are defined in Table 1. Short-term forecasts can be useful for players in power markets where prices dynamically shift based on generation supply, customer demand, and financial spot and derivative contracts which are all based on energy forecasting \cite{Bunn04}. Very short-term forecasts can be important for power distributors and operators that want to meet customer demands more efficiently. Long-term forecasts are important in infrastructure planning and energy provider and distributers long-term planning. An example of a long-term forecast can be seen in Figure 2.
@@ -181,7 +181,7 @@ In the past this predictive role was largely upheld with statistical point-estim
     \label{fig:forecast}
   \end{figure}
 
-Electricity generation has always been mostly an on-demand industry and largely continues to be, where the energy we generate needs to be transmitted and used within a short period of time because we lack efficient systems for energy storage at scale \cite{Lai21}. This fact presents additional complications when many renewable energies only produce energy in certain conditions, making its effective use more reliant on forecasting to navigate a more diverse and complex power grid. Additionally, with the cultural and regulatory push towards end-users adopting the use of electric appliances, electric vehicles, and heat pumps, energy demand will continue to change \cite{Archsmith22}. These circumstances mean accurate forecasting is becoming even more important with improvements having the potential to better reduce reliance on fossil-fuel energies by more efficiently filling in gaps of energy demands with a more diversified and efficient energy grid.
+Electricity generation has always been mostly an on-demand industry and largely continues to be, where the energy we generate needs to be transmitted and used within a short period of time because we lack efficient systems for energy storage at scale \cite{Lai21}. This fact presents additional complications when many renewable energies only produce energy in certain conditions, making its effective use more reliant on forecasting to navigate a more diverse and complex power grid. Additionally, with the cultural and regulatory push towards end-users adopting the use of electric appliances, electric vehicles, and heat pumps, energy demands will continue to change \cite{Archsmith22}. These circumstances mean accurate forecasting is becoming even more important with improvements having the potential to better reduce reliance on fossil-fuel energies by more efficiently filling in gaps of energy demands with a more diversified and efficient energy grid.
 
 \begin{table}
 \centering
@@ -198,7 +198,7 @@ Electricity generation has always been mostly an on-demand industry and largely 
 \end{tabular}
 \end{table}
 
-There is little consensus among researchers and professionals about what exemplifies state-of-the-art in time series forecasting. This seems to be due to many things including that time series forecasting is heavily task-specific, meaning one model may perform well with one type of data and forecast horizon, but might perform poorly when compared to other techniques with a different horizon or data type \cite{Yue21}. This is why it is still important to experiment and compare forecasting techniques on domain-specific time series data.
+There is little consensus among researchers and professionals about what exemplifies state-of-the-art in time series forecasting. This seems to be due to many things including that time series forecasting is heavily task-specific, meaning one model may perform well with one type of data and forecast horizon, but might perform poorly when compared to other techniques with a different horizon or data attributes such as seasonality \cite{Yue21}. This is why it is still important to experiment and compare forecasting techniques on domain-specific time series data.
 
 \section{Related Work}
 Seasonal Autoregressive Integrated Moving Average (SARIMA) and Exponential Smoothing models tend to be useful in short and medium-term forecasts but can experience limitations modeling complex periodicity and interactions \cite{Muzaffar19, Hopf23}. Newer, but certainly not state-of-the-art, machine learning techniques such as Support Vector Machines, XGBoost, and a variety of Long Short-Term Memory (LSTM) network architectures tend to generalize better and excel across multiple forecast horizons \cite{Sun22, Muzaffar19}.
@@ -208,12 +208,25 @@ Hybrid models and ensemble methods, utilizing a variety of preprocessing techniq
 Transformer-based models and other frameworks developed and popularized in the Large Language Model (LLM) space have found a foothold in time series forecasting in the last few years as well, but their use in time series forecasting is still being researched \cite{Zeng22}. Similar to the LSTM, transformer-based models capture complex context and relationships in data, but across greater distances of the training corpus with increased efficiency because of their ability to be parallelized effectively \cite{Zheng24}. This type of model benefits from pre-training on a large corpus of diverse data which simply does not exist in the public domain for time series data \cite{Hug24}. With more time and data, researchers believe transformer-based models can be effective at time series forecasting \cite{Hug24, Zheng24}.
 
 \section{Methods and Proposed Work}
-Several models stemming from different statistical and machine-learning families will be trained to perform electricity load forecasting across the different forecast horizon intervals listed in Table 1. Each model's amount of compute required for training and evaluation scores will be compared across different forecast horizons. See evaluation section for more details on the specific metrics used.
+Several models stemming from different statistical, machine-learning, and deep learning families will be trained to perform electricity load forecasting across the different forecast horizon intervals listed in Table 1. Each model's amount of compute required for training and evaluation scores will be compared across six different forecast horizons and 5 different time series. Due to the sample rate of the load data being hourly, the shortest forecast horizon tested will be 6 hours. See evaluation section for more details on the specific metrics used.
 
   \subsection{Data}
-  Electric load data was collected by the Pennsylvania-New Jersey-Maryland Interconnection (PJM). PJM is a regional electrical transmission organization which coordinates electricity transmission in all or parts of Delaware, Illinois, Indiana, Kentucky, Maryland, Michigan, New Jersey, North Carolina, Ohio, Pennsylvania, Tennessee, Virginia, West Virginia, and the District of Columbia \cite{PJMZone24}. A map of this can bee seen in Figure 3.
+  Electric load data was collected by the Pennsylvania-New Jersey-Maryland Interconnection (PJM). PJM is a regional electrical transmission organization which coordinates electricity transmission in all or parts of Delaware, Illinois, Indiana, Kentucky, Maryland, Michigan, New Jersey, North Carolina, Ohio, Pennsylvania, Tennessee, Virginia, West Virginia, and the District of Columbia \cite{PJMZone24}. A map of this can bee seen in Figure 4.
   
   Weather data was retrieved from the National Oceanic and Atmospheric Administration's (NOAA) Regional Climate Center (RCC) Applied Climate Information System (ACIS) \cite{ACIS}. The data was manually downloaded by selecting a weather station and choosing relevant dates and features with the daily data listings form. 
+  
+   \begin{figure}[hbt!]
+    \includegraphics[width=\columnwidth]{Images/Zones_Overview.png}
+    \caption{Megawatt vs Time plot of the selected zones.}
+    \Description{}
+    \label{fig:zone}
+  \end{figure}
+  
+  The electric load data sourced from PJM is a set of hourly load in megawatt-hours verified by the individual electric distribution companies \cite{PJMLoad24}. The hourly load data is flagged with geographical location data which will be leveraged to include regional weather data as a covariate in the models. After data discovery, 5 zones were chosen to represent the electrical load data for their sample size, variety in signal shape, and data continuity. The following zones were chosen: 1.) "AE" - Atlantic City Electric Co.. 2.) "CE" - ComEd. 3.) "DOM" - Dominion. 4.) "JC" - Jersey Central Power \& Light 5.) "PEP" - Potomac Electric Power Co.. A plot of each zone's time series can be seen at Figure 3.
+  
+  The weather data has a daily sample frequency which was the only data available at the time. Hourly data would have been preferable to match the frequency of the load data, but even at the mismatched sample rate, will be a valuable exogenous covariate. Features included in this dataset are the maximum and minimum recorded temperature, average temperature, precipitation in inches. After the 5 zones were selected, weather data was retrieved to match. Along with the zone map in Figure 4, weather stations were chosen to represent each zone under the following criteria: 1.) Weather station is geographically central to the zone. 2.) Weather station uptime and reliability (airport weather stations often chosen for this quality).
+  
+  An overview of the full datasets can be seen in Table 2.
   
   \begin{table}[hbt!]
 \centering
@@ -222,20 +235,12 @@ Several models stemming from different statistical and machine-learning families
 \toprule
 \textbf{Dataset} & \hfil \textbf{Size (Rows)} & \textbf{Date Range} \\
 \cmidrule(rl){1-1}\cmidrule(rl){2-2}\cmidrule(rl){3-3}
-  Hourly Load & 5,446,243 & 1993/01/01 - 2024/03/27 \\
+  Hourly Load & 776,016 & 1993/01/01 - 2024/03/27 \\
   Daily Weather & 32,400 & 1993/01/01 - 2024/04/09  \\   
   \bottomrule
 \end{tabular}
 \end{table}
-  
-  The electric load data sourced from PJM is a set of hourly load in megawatt-hours verified by the individual electric distribution companies \cite{PJMLoad24}. The hourly load data is flagged with geographical location data which will be leveraged to include regional weather data as a covariate in the models. 
-  
-  The weather data has a daily sample frequency which was the only data available at the time. Hourly data would have been preferable to match the frequency of the load data, but even at the mismatched sample rate, will be a valuable exogenous covariate. Features included in this dataset are the maximum and minimum recorded temperature, average temperature, precipitation in inches. 
-  
-  After data discovery, 5 zones were chosen for their sample size, variety in signal shape, and data continuity. The weather data was selected to match the zones of interest from the load dataset and along with the zone map in Figure 3, weather stations were chosen for each zone. The weather stations chosen to represent each zone were chosen under the following criteria: 1.) Weather station is geographically central to the zone. 2.) Weather station uptime and reliability (airport weather stations often chosen for this quality).
-  
-  An overview of the datasets can be seen in Table 2.
-  
+
   \begin{figure}
     \includegraphics[width=\columnwidth]{Images/Zones.png}
     \caption{Regional Transmission Zones Labeled by Distributor IDs \protect \cite{PJM24}.}
@@ -244,34 +249,34 @@ Several models stemming from different statistical and machine-learning families
   \end{figure}
 
   \subsection{Preprocessing}
-  The electrical load data is retrieved from PJM's Data Miner 2 and each year is downloaded into a .csv file. These .csv files are then zipped so they can be pushed to github. All data is important into Pandas dataframes as it will allow all the following data transformations to be frictionless. Also, since several different models will be used, Pandas allows us to easily reformat the data between float arrays, tensors, and otherwise.
+  The electrical load data is retrieved from PJM's Data Miner 2 and each year is downloaded into a .csv file. These .csv files are then zipped so they can be pushed to Github. All data is imported into Pandas dataframes as it will allow all the following data transformations to be frictionless. Also, since several different models will be used, Pandas allows users to easily reformat the data between float arrays, tensors, and otherwise.
   
-  The first step in preprocessing the datasets will be checking for any missing dates. Any missing rows will added by inserting the average value of the two surrounding observed data. Then the data will be analyzed for outliers, using a tumbling window method, replacing any identified outliers with the median of the window size. The two datasets will then be date aligned and merged.
+  The first step in preprocessing the datasets is checking for any missing dates. Any missing rows are added by inserting the average value of the two surrounding observed data. Then the data is analyzed for outliers, using a tumbling window method, replacing any identified outliers with the median of the window size. The two datasets is then be date aligned and merged.
   
     \subsection{Feature Engineering}
-  Feature engineering is a large part of time series forecasting, typically past values of the target variable are highly correlated to future values. Several methods will be used to generate covariates that either have a signal smoothing effect, identifies seasonal periods, or encodes exogenous information.
+  Feature engineering is a large part of time series forecasting, typically past values of the target variable are highly correlated to future values. Several methods were used to generate covariates that either have a signal smoothing effect, identifies seasonal periods, or encodes exogenous information.
   \begin{enumerate}
-  \item \textbf{Date features} will be encoded in categorical features representing Hours, Days, Months, Years, and Day of Year - this will help the models identify recurring temporal relationships, or seasonality, in the target variable.
+  \item \textbf{Date features} are be encoded in categorical features representing Hours, Days, Months, Years, and Day of Year - this will help the models identify recurring temporal relationships, or seasonality, in the target variable.
   \item \textbf{Rolling mean} of the target variable of the previous 1 month of data points, adding the rolling mean helps smooth out the signal, increasing model performance. 
   \item \textbf{Lagged features} at specific intervals are useful if an effort is made to match known seasonal periods within the data. Lagged features of the target variable at 1 hour, 6 hours, 24 hours, 1 week, and 1 month will be used. \textit{Note, a 1 year lagged feature would also be effective, but would have null values for the first year which can be problematic for some models and those rows would need to be removed.}
-  \item \textbf{Fourier transform spectral density}, similar to lagged features, helps identify correlated seasonal periods. By performing the Fast Fourier Transform on the target variable and taking the absolute value of it, the most relevant seasonal frequencies will have the greatest magnitudes. An example of the resulting spectral density plot can be seen in Figure 4.
+  \item \textbf{Fourier transform spectral density}, similar to lagged features, helps identify correlated seasonal periods. By performing the Fast Fourier Transform on the target variable and taking the absolute value of it, the most relevant seasonal frequencies will have the greatest magnitudes. An example of the resulting spectral density plot can be seen in Figure 5.
   
     \begin{figure}[hbt!]
-    \includegraphics[width=\linewidth]{Images/FFT_Plot.png}
+    \includegraphics[width=\linewidth]{Images/FFT.png}
     \caption{Fourier transform spectral density plot of the ComEd (CE) zone. To cast frequency units to days: $\frac{1}{freq*24}$.}
     \Description{}
     \label{fig:fft}
   \end{figure}
   
-  \item \textbf{First and Second-Order Derivatives/Differencing} finds the instantaneous rate of change between two observed data points and the acceleration of the rate of change respectively. This encodes direction, magnitude, and change of direction in time series data. An example plot of both orders of derivatives can be seen in Figure 7 in the appendix.
+  \item \textbf{First and Second-Order Derivatives/Differencing} finds the instantaneous rate of change between two observed data points and the acceleration of the rate of change respectively. This encodes direction, magnitude, and change of direction in time series data. An example plot of both orders of derivatives can be seen in Figure 12 in Appendix A.
 \end{enumerate}
 
-Specific intervals of features such as lag, rolling mean, derivatives need to be considered carefully when used as exogenous features calculated from the target variable. This can be a great source of data leakage into the testing set if these are not data you would have in a prediction setting. One method to overcome this is to take a naive approach and assign last season's values. Another is to create a hybrid model which forecasts the exogenous features to include in the forecast. Finally, a rolling forecast can be used predict new datapoints and retrain the model with those predictions up until the intended forecast horizon is achieved. Here, the shorter length interval features will be excluded to prevent data leakage, but will remain implemented but not included as an exercise in time series feature engineering.
+Specific intervals of features such as lag, rolling mean, derivatives need to be considered carefully when used as exogenous features calculated from the target variable. This can be a great source of data leakage into the testing set if these are not data you would have in a prediction setting. One method to overcome this is to take a naive approach and assign last season's values. Another is to create a hybrid model which forecasts the exogenous features to include in the forecast. Finally, a rolling forecast can be used predict new datapoints and retrain the model with those predictions up until the intended forecast horizon is achieved. Here, the shorter length interval features have been excluded to prevent data leakage, but will remain implemented but not included as an exercise in time series feature engineering.
 
   \subsection{Tools and Techniques}
-    The load data will then be analyzed and plotted for historical trends and to identify periodicity (cycles) at different context window intervals which will help set model expectations for the various forecast horizons. 
+    The load data is then analyzed and plotted for historical trends and to identify periodicity (cycles) at different context window intervals which helps set model expectations for the various forecast horizons. 
     
-    Models of varying complexity and methodology will be used to better represent the broad spectrum of techniques used today, in an attempt to capture a good representation of which contemporary models work best for different forecast horizons. 
+    Models of varying complexity and methodology were implemented to better represent the broad spectrum of techniques used today, in an attempt to capture a good representation of which contemporary models work best for different forecast horizons. 
 
 \textbf{Proposed models}:
 \\
@@ -282,36 +287,30 @@ Specific intervals of features such as lag, rolling mean, derivatives need to be
 \end{itemize}
 \textbf{Statistical}
 \begin{itemize}
-    \item{Seasonal Autoregressive Integrated Moving Average (SARIMA)}
+    \item{Seasonal Autoregressive Integrated Moving Average (SARIMA)*}
+    \item{Holt-Winters' Method}
     \item{Multiple Seasonal-Trend decomposition using LOESS (MSTL)}
 \end{itemize}
 \textbf{Machine Learning}
 \begin{itemize}
-    \item{Support Vector Machine (SVM)}
+    \item{Support Vector Regression (SVR)}
     \item{XGBoost}
 \end{itemize}
 \textbf{Deep Learning}
 \begin{itemize}
-    \item{Temporal Fusion Transformers (TFT)}
+    \item{Neural Hierarchical Interpolation (N-HiTS)}
+    \item{Temporal Fusion Transformers (TFT)*}
 \end{itemize}
 
-Some models may require data transformation or normalization to perform effectively. For example, the SVM and TFT increase performance with scaled feature matrices. $$Z = \frac{(X - \bar{X})}{S}$$ 
-Centers inputs around 0 with the sample mean, and scales them with the sample standard deviation.
+\textit{* SARIMA and TFT implementations were attempted but removed from results section as they both required more computation than the hardware could reasonably dedicate to their training. More details in the discussion section.}
+
+Some models require data transformation or normalization to perform effectively. For example, the SVM and TFT increase performance with scaled feature matrices. $$Z = \frac{(X - \bar{X})}{S}$$ 
+A standard Z standardization is used which centers inputs around 0 with the sample mean, and scales them with the sample standard deviation.
 
 \section{Evaluation}
 
 \subsection{Training, Validation, and Testing Data Split}
 The data will be split into a training, validation, testing split. A validation set is necessary here because several of the proposed forecasting models will require hyperparameter tuning. Once the data has been aggregated, cleaned, and finalized the exact ratio may be adjusted to ensure the test set is large enough to span the largest forecast horizon at least one or several times, depending on what is feasible with the data on hand.
-
-  \begin{figure}[hbt!]
-    \includegraphics[width=\columnwidth]{Images/Split_Plot.png}
-    \caption{Plot of the training, validation, and testing split.}
-    \Description{}
-    \label{fig:split}
-  \end{figure}
- 
-To avoid data leakage and maintaining temporal relationships, the test set will always be assigned the most recent dates with zero overlap in the training or validation sets. Also, it is ensured that each set contains a reasonable amount of each periodicity. Details about the resulting split can be seen in Table 3 and Figure 5.
-
 
   \begin{table}[hbt!]
 \centering
@@ -327,18 +326,36 @@ To avoid data leakage and maintaining temporal relationships, the test set will 
 \end{tabular}
 \end{table}
 
+To avoid data leakage and maintaining temporal relationships, the test set will always be assigned the most recent dates with zero overlap in the training or validation sets. Also, it is ensured that each set contains a reasonable amount of each periodicity. Details about the resulting split can be seen in Table 3 and Figure 6.
+  \begin{figure}[hbt!]
+    \includegraphics[width=\columnwidth]{Images/Split_Plot.png}
+    \caption{Plot of the training, validation, and testing split.}
+    \Description{}
+    \label{fig:split}
+  \end{figure}
+
+An important question arises when using a validation set to tune models in a time series domain because of the temporal nature of the data. Oftentimes, but not always, the most recent observations have the biggest impact on future forecasted predictions. This can be an issue in the process of hyperparameter optimization because the fit model now contains a time-gap between the training set and the testing set.
+
+A choice remains:
+
+\begin{enumerate}
+\item{Use the validation set only in model selection and hyperparameter tuning, knowing it may not generalize well to new data.}
+\item{After using the validation set to specify the model and hyperparameters, refit including the validation set, hoping this will not overfit the now combined training and validation sets.}
+\end{enumerate}
+Both have their merits and are highly dependent on the dataset and target value. In this project, choice 2 has been the chosen after model optimizations are complete, the validation set is combined with the training set and used on the model's final fit.
+
 \subsection{Metrics}
-Symmetric Mean Absolute Percentage Error (sMAPE) will be the evaluation metric used to compare all models. This will ensure comparisons of error across different models and forecasting horizons are normalized. 
+\textbf{Symmetric Mean Absolute Percentage Error (sMAPE)} will be the evaluation metric used to compare all models. This ensures comparisons of error across different models and forecasting horizons are normalized. 
 
 \begin{equation}
 \text{sMAPE} =\frac{200}{n}\sum_{i=1}^{n}\frac{\lvert y_i - \hat{y_i} \rvert}{\lvert y_i \rvert + \lvert \hat{y_i} \rvert}
 \end{equation}
 
-where $y_i$ and $\hat{y_i}$ are the actual values and forecasted values respectively, and $n$ is the number of points in the set.
+where $y_i$ and $\hat{y_i}$ are the actual values and forecasted values respectively, and $n$ is the number of points in the set. This implementation outputs a percentage ranging from 0 to 200 percent.
 
-One possible limitation of sMAPE is if a predicted value or actual value equals zero, the metric balloons to the maximum error value, and if both equals zero, the metric is undefined. Chosen evaluation metrics often have strengths and weaknesses, and it is yet unclear if this limitation will occur here.
+One possible limitation of sMAPE is if a predicted value or actual value equals zero, the metric balloons to the maximum error value, and if both equals zero, the metric is undefined.
 
-Root Mean Squared Error (RMSE) will also be used in model evaluation to complement sMAPE. The value of including RMSE is that it is an easily interpretable quantitative metric resulting in a value that is in the same unit as the response. It also heavily penalizes predictions the further they are from the actual value.
+\textbf{Root Mean Squared Error (RMSE)} will also be used in model evaluation to complement sMAPE. The value of including RMSE is that it is an easily interpretable quantitative metric resulting in a value that is in the same unit as the response. It also heavily penalizes predictions the further they are from the actual value.
 
 \begin{equation}
 \text{RMSE} =\sqrt\frac{\sum_{i=1}^{n}(y_i - \hat{y_i})^2}{n}
@@ -346,7 +363,7 @@ Root Mean Squared Error (RMSE) will also be used in model evaluation to compleme
 
 where $y_i$ and $\hat{y_i}$ are the actual values and forecasted values respectively, and $n$ is the number of points in the set.
 
-In conjunction with the RMSE, a Normalized RMSE (NRMSE) will also be used to compare models between zones, since each zone have varying scales of the target variable.
+In conjunction with the RMSE, a \textbf{Normalized RMSE (NRMSE)} is also used to compare models between zones, since each zone have varying scales of the target variable.
 
 \begin{equation}
 \text{NRMSE} = \frac{RMSE}{\bar{Y}}
@@ -356,9 +373,59 @@ where $\bar{Y}$ is the mean of the actual values.
 
 \section{Discussion}
 
-After data discovery and feature engineering, during the preliminary model setup it was determined a few of the proposed models would not be moving forward to testing due to the size of the dataset and feature matrix. The ARIMA-based models, even when specified as univariate models, require substantial setup and tuning which on the machine it was being worked on became untenable. Train times for this and a few neural-network models, even with reduced training set sizes, were not able to be completed due to hardware limitations. Unfortunately these models will not move forward or will be reduced in scope at some level. These reductions and scope will be listed per model as they arise. However, this does add justification to the thesis that forecast horizon lengths and models need to be chosen at a task-specific level because lengthy training durations on short forecast horizon lengths heavily outweigh the tradeoff balance.
+After data discovery and feature engineering, during the preliminary model setup it was determined a few of the proposed models would not be moving forward to testing due to the size of the dataset and feature matrix. 
 
-More discussions and analysis will be added here when the project has been completed.
+The ARIMA-based models such as SARIMA, even when specified as univariate models, require substantial setup and tuning which on the machine it was being worked on became untenable. Train times for this and a few neural-network models including TFT, even with reduced training set sizes, were not able to be completed due to hardware limitations. Unfortunately these two models will not be completed to a scope able to compare results. However, this does add justification to the thesis that forecast horizon lengths and models need to be chosen at a task-specific level because lengthy training durations on short forecast horizon lengths heavily outweigh the balance of tradeoffs.
+
+Furthermore, two models have reduced scope due to the same reasons above and the following concessions were made due to hardware limitations.
+
+\begin{itemize}
+  \item{\textbf{MSTL}: After model tuning on a reduced training set, the MSTL model was unable to train on the entirety of the combined training and validation set so the final fit was trained solely on the validation set. Also, forecast horizon was limited up to 1 month and failed to train to the 6 month and 2 year horizons, again due to hardware limitations.}
+
+  \item{\textbf{N-HiTS}: After model tuning on a reduced training set, the N-HiTS model was also unable to train on the entirety of the combined training and validation sets. The final fit was performed on just the last 30 days of the validation set. This also limited its forecast horizon to up to 1 month.}
+  \end{itemize}
+  
+  During Exploratory Data Analysis (EDA), Fourier Transform analysis, and  Autocorrelation (ACF) and Partial Autocorrelation (PACF) plot analysis it was noted that each zone's time series data contained multiple seasonalities. These seasonality periods included, 24 hour, 1 week, 6 month, 1 year cycles, and are important to understand when specifying time series models.
+  
+  The following section includes a brief model summary and details of notable parameters.
+    
+\begin{enumerate}
+    \item\textbf{Seasonal Naive Forecast Model}: The Seasonal Naive Forecasting Model is a simple but often effective baseline model that can handle any length forecast horizon as long as there is at least the same amount of training data available. Forecasts of future values are equal to past values of the target variable (`MW`) shifted backwards one period of the input season. As we predict different forecast horizons, the length of the horizon can be used as a seasonal-lag to adjust the naive forecast lengths. For example, a forecast one week into the future is equal to the previously observed values from the same week last year. An example is shown in Figure 7.
+         \begin{figure}[hbt!]
+    	\includegraphics[width=\linewidth]{Images/Seasonal_Naive.png}
+    	\caption{Example of a 1 year seasonal naive forecast. The prediction forecast is in the shaded area.}
+    	\Description{}
+   	 \label{fig:naive}
+  	\end{figure}
+    \item\textbf{Mean}: A simple baseline model that calculates the mean of the historical time series data (training set) and uses that mean value to predict all future values.
+    \item\textbf{Holt-Winters' Method}: Holt-Winters’ method (sometimes referred to as triple exponential smoothing) is an extension of exponential smoothing for data that contains both trend and seasonality. Only one seasonal period can be selected to capture.
+      \begin{itemize} % Begin nested bullet.
+      \item During tuning, a seasonal period of 1 week performed the best. \textit{A period length of one year would also likely be effective, but training times became a constraint.}
+      \end{itemize} % End nested bullet.
+    \item\textbf{Multiple Seasonal-Trend decomposition using LOESS (MSTL)}: MSTL decomposes time series data into a trend component, multiple seasonal components, and a residual component. MSTL uses Seasonal-Trend decomposition using LOES (STL) to extract seasonal components from a time series. Unlike the Holt-Winters method, and as the name suggests, MSTL can handle multiple seasonalities.
+      \begin{itemize} % Begin nested bullet.
+      \item Season periods included in the model: 24 hour, 1 week, 6 month, 1 year cycles.
+      \end{itemize}  % End nested bullet.
+    \item\textbf{Support Vector Regression (SVR)}: The SVR calculates a hyperplane that best fits the data points in a hyper-dimensional continuous space.
+      \begin{itemize} % Begin nested bullet.
+      \item kernel: Radial Basis Function (RBF)
+      \end{itemize}  % End nested bullet.
+    \item\textbf{XGBoost}: Ensemble gradient boosted tree method which sequentially builds trees.
+      \begin{itemize} % Begin nested bullet.
+      \item max depth: 7
+      \item max leaf: None
+      \item estimators: 6000 
+      \end{itemize} % End nested bullet.
+    \item\textbf{Neural Hierarchical Interpolation (N-HiTS)}: Developed as an improvement on NBEATS, it uses several multilayer perceptrons (MLPs) with ReLU non-linearities to interpolate across blocks each specializing in separate signal frequencies.
+      \begin{itemize} % Begin nested bullet.
+      \item epochs: 1000
+      \item learning rate: 0.001
+      \item pool kernel size: [2, 2, 1]
+      \item freq downsample: [4, 2, 1]
+      \item mlp units: 3 * [[512, 512]]
+      \end{itemize} % End nested bullet.
+\end{enumerate}
+\textit{Note: This is not an exhaustive list of parameters used.}
 
 \subsection{Project Timeline}
 
@@ -393,65 +460,72 @@ Table 4 outlines the specific tasks and their projected schedule.
    \cmidrule(rl){2-4} 
    & \hspace{3mm}Training &\textbf{--} & \textbf{X} \\  
    & \hspace{3mm}Val. Optimizations &\textbf{--} & \textbf{X}\\  
-   & Build Eval. Functions & \textbf{X}& \\  
+   & Build Eval. Functions & \textbf{--} & \textbf{X} \\  
    \cmidrule(rl){2-4} 
-  Days 9-10 & Test Results & & \\  
+  Days 9-10 & Test Results & \textbf{--} & \textbf{X} \\  
   \cmidrule(rl){1-4} 
-   & Discussion & & \\
+   & Discussion & \textbf{--} & \textbf{X} \\
    \cmidrule(rl){2-4}   
-   & Conclusion & & \\  
+   & Conclusion & \textbf{--} & \textbf{X} \\  
    \cmidrule(rl){2-4} 
   \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{Potential Challenges}
-A few challenges may arise impeding progress or causing the project to fall behind schedule are expected to be the following. 
-Generally, properly fitting the data to the number of proposed forecast models within the timeline may pose a challenge. Specifically, the neural-network architectures can take considerable time to build from the ground up without intimate knowledge and experience of their specific architectures. Also, completely fleshing out the three goals of the project on schedule may be cause for concern and need reevaluation -- anomaly detection, hourly load forecasting, and hourly energy generation forecasting.
+\subsection{Challenges \& Alternative Approaches}
+A few challenges arose throughout, impeding progress in several areas of the project. As mentioned in the discussion section, the SARIMA model was removed due to hardware limitations. MSTL and N-HiTS both had their scope reduced in limiting the length of forecast horizon and, in the case of N-HiTS, reducing training set size as well. Also, the scope of the project overall was reduced to only focus on the electrical load data, not also generation data, and anomaly detection was removed from the project as well.
 
-The granularity of the data may post issues in accurately forecasting the shorter forecast horizons. Since all collected data has a time-step (sample rate) granularity of one hour, predictions less than one hour have little basis in reality. Data with smaller a time-step would be required for accurate shorter forecast horizons.
-
-\subsection{Alternate Approaches}
-If the project is running behind the timeline a few different approaches can be considered to make the target deadlines. 
-
-\begin{enumerate}
-  \item The number of models can be reduced but leaving at least one remaining from each model type. 
-  \item In the case of some of the neural-network based architectures and machine-learning approaches, complexity can be reduced by utilizing more out-of-the-box approaches/models. 
-  \item Instead of forecasting both hourly load usage and generation by fuel type, the scope of the project can be reduced to focus on just one of these domains.
-  \item Further reduce the scope to solely focus on anomaly detection.
-\end{enumerate}
+The granularity of the data also posed issues in accurately forecasting the shorter forecast horizons. Since all collected data has a time-step (sample rate) granularity of one hour, predictions less than one hour have little basis in reality. Data with smaller a time-step would be required for accurate shorter forecast horizons.
 
 \section{Results}
-As the other models are still being worked on here is a preliminary look at the results for the baseline models and XGBoost which has been tuned and finalized.
 
-Preliminary Results:
-  \begin{figure}[hbt!]
-    \includegraphics[width=\columnwidth]{Images/Prelim_Results.png}
-    \caption{Results of the models that are completed.}
-    \Description{}
-    \label{fig:results}
-  \end{figure}
+The testing set results, seen in Appendix A - Figure 8, show a full picture of balancing the tradeoff model complexity and forecast horizon length. A plot of each model's forecast prediction on one of the zones across all forecast horizons can also be seen in Appendix A - Figure 9 and 10.
+
+\textbf{Analysis by Forecast Horizon:}
+\begin{itemize}
+\item\textbf{6 Hours:} Statistical models Holt-Winters and MSTL show good performance on the shortest forecast horizon. Also, N-HiTS performed well on all zones, performing the best out of all models on DOM and JC time series. 
+\item\textbf{3 Day:} XGBoost performed the best in almost all zones except AE where the SVR received the best score. We also begin to see more models performing worse than the baseline models in a few zones.
+\item\textbf{1 Week:} XGBoost continues to evaluate the best with SVR close behind. However, now the statistical models are beginning to perform worse than the baseline models. This is to be expected for the Holt-Winters model as it only captures one seasonal period in a dataset that contains several, but was initialized for 1 week which demonstrates how effecting a seasonal naive forecast can be. Also, as expected N-HiTS falls off from here on because of the constraints put on the model in this implementation described in the discussion session.
+\item\textbf{1 Month:} Models scored similarly to the 1 week forecasts, though with MSTL performing worse.
+\item\textbf{6 Month:} XGBoost continues to evaluate and to a lesser extend, SVR. Holt-Winters out-performed the baseline in a few zones but referencing the plots confirms this is due to random chance.
+\item\textbf{2 Year:} XGBoost again outperforms all other tested models. The SVR results fluctuate between zones.
+\end{itemize}
+
+Though these calculations would be performed at an enterprise level, compute times are very relevant to the thesis of this project. Please find the single data point on compute times on my local machine in Table 5.
+
+  \begin{table}[hbt!]
+\centering
+\caption{Aggregated training and prediction times of each model on a Macbook Pro (2021) M1 - 16GB RAM. $^{1}$ \textit{MSTL only forecasted up to 1 month.} $^{2}$ \textit{N-HiTS only forecasted up to 1 month, but also only trained on 30 days of data. 570 minutes is an estimate by linear extrapolation.}}
+\begin{tabular}{ll}
+\toprule
+\textbf{Model} & \textbf{Time} \\
+\cmidrule(rl){1-1}\cmidrule(rl){2-2}
+  Seasonal Naive & Instant \\
+  Mean & Instant  \\   
+  Holt-Winters & 9 Min  \\   
+  MSTL & 95 Min$^{1}$  \\ 
+  SVR & 59 Min  \\ 
+  XGBoost & 2 Min  \\ 
+  N-HiTS & 9 Min $\rightarrow$ 570 Min$^{2}$  \\ 
+  \bottomrule
+\end{tabular}
+\end{table}
 
 \section{Conclusion}
 By analyzing and modeling energy time series data we can efficiently and accurately forecast into the future different interval forecast horizons, which correspond to real-world decisions. Depending on the time-scale in which those decisions rely, analysts must appropriately identify what side of the accuracy and efficiency tradeoff is more important in their use case. Modern techniques in time series forecasting have reduced the errors in all forecast horizon intervals and continue to generalize those prediction abilities across many domains, but many of the most accurate models take a considerable amount of time or hardware to train. This type of research and technology is necessary for uninterrupted energy generation and distribution due to the ever-increasing demands and complexity of our energy grids.
 
 \subsection{Key Findings}
-XGBoost performs surprisingly well in this domain at many forecast horizons, greatly improving over the baseline methods. On top of its performance the computational demands are very low and training takes negligible time compared to other machine learning and neural network-based methods.
+XGBoost performs surprisingly well in this domain at most forecast horizons, greatly improving over the baseline methods. On top of its performance the computational demands are very low and training takes negligible time compared to other machine learning and neural network-based methods. Predictions are also performed very quickly once the tree has been fitted. However, it may be susceptible to data drift as new data is introduced, requiring it to be refitted.
 
-Once the remaining models are completed, a further comparative analysis across all horizons and methods can be completed.
+Statistical methods such as MSTL and Holt-Winters models perform best at short horizon forecasts. Holt-Winters should only be used in forecasts horizon lengths in which there is only one predominant seasonality otherwise it needs to be augmented to handle multiples.
+
+N-HiTS even though was computationally the most expensive, performed well on shorter forecast horizons. As it was built for long-term horizons, no doubt it would also excel at them when fitted with the full training set.
+
 \subsection{Future Work}
-To be completed upon project completion.
+Training and testing should be rerun on more robust hardware so every model can be tested on each forecast horizon. Also, more attention should be given to computational efficiency and statistical measures of training and prediction times across each model and forecast horizon. This would help give a clearer picture of which model to choose in what situations.
 
 \section{Appendices}
-
-  \begin{figure}[hbt!]
-    \includegraphics[width=\columnwidth]{Images/Deriv_Plot.png}
-    \caption{First and second-order derivatives/differencing of Megawatts in black and yellow respectively.}
-    \Description{}
-    \label{fig:deriv}
-  \end{figure}
-
-
+Appendix A is on the page after references.
 %%
 %% The acknowledgments section is defined using the "acks" environment
 %% (and NOT an unnumbered section). This ensures the proper
@@ -467,12 +541,55 @@ Luna, for breaking up the hyper-focused monotony with mind-clearing afternoon wa
 %% The next two lines define the bibliography style to be used, and
 %% the bibliography file.
 \bibliographystyle{ACM-Reference-Format}
-\bibliography{References_Checkpoint}
+\bibliography{References_Final_Report}
 
-
+\onecolumn
 %%
 %% If your work has an appendix, this is the place to put it.
-\appendix
+\appendix{Appendix A}
+
+  \begin{figure*}[hbt!]
+    \includegraphics[width=\textwidth]{Images/Results_Composed.png}
+    \caption{NRMSE and sMAPE results of every model at each forecast horizon and zone. Scores highlighted in green indicate the best score in that forecast horizon and zone. Scores highlighted in red indicate the model scored worse than either of the baseline models. Values of nan indicate models that were not fit to that forecast horizon due to hardware limitations.}
+    \Description{}
+    \label{fig:results}
+  \end{figure*}
+  
+  \begin{figure*}[hbt!]
+    \includegraphics[width=\textwidth]{Images/Result_Plot_1.png}
+    \caption{Plot of each model's forecast prediction on the CE zone, across 6 hours, 3 days, and 1 week forecast horizons.}
+    \Description{}
+    \label{fig:resultsplot2}
+  \end{figure*}
+  
+    \begin{figure*}[hbt!]
+    \includegraphics[width=\textwidth]{Images/Result_Plot_2.png}
+    \caption{Plot of each model's forecast prediction on the CE zone, across 1 month, 6 months, and 2 years forecast horizons.}
+    \Description{}
+    \label{fig:resultsplot1}
+  \end{figure*}
+  
+  \begin{figure*}
+\begin{tabular}{cc}
+  \includegraphics[width=65mm]{Images/NRMSE_Zone_AE.png} &  \includegraphics[width=65mm]{Images/NRMSE_Zone_CE.png} \\
+(a) & (b) \\[6pt]
+ \includegraphics[width=65mm]{Images/NRMSE_Zone_DOM.png} &  \includegraphics[width=65mm]{Images/NRMSE_Zone_JC.png} \\
+(c) & (d) \\[6pt]
+\multicolumn{2}{c}{\includegraphics[width=65mm]{Images/NRMSE_Zone_PEP.png} }\\
+\multicolumn{2}{c}{(e)}
+\end{tabular}
+\caption{NRMSE of each model and forecast horizon organized by zone. (a) Atlantic City Electric Co. (b) ComEd. (c) Dominion. (d) Jersey Central Power \& Light (e) Potomac Electric Power Co.}
+\Description{}
+\label{fig:resultszone}
+\end{figure*}
+  
+  \begin{figure*}[hbt!]
+    \centering
+    \includegraphics[width=\columnwidth]{Images/Deriv_Plot.png}
+    \caption{First and second-order derivatives/differencing of Megawatts in black and yellow respectively.}
+    \Description{}
+    \label{fig:deriv}
+  \end{figure*}
 
 \end{document}
 \endinput
