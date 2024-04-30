@@ -515,14 +515,16 @@ Though these calculations would be performed at an enterprise level, compute tim
 By analyzing and modeling energy time series data we can efficiently and accurately forecast into the future different interval forecast horizons, which correspond to real-world decisions. Depending on the time-scale in which those decisions rely, analysts must appropriately identify what side of the accuracy and efficiency tradeoff is more important in their use case. Modern techniques in time series forecasting have reduced the errors in all forecast horizon intervals and continue to generalize those prediction abilities across many domains, but many of the most accurate models take a considerable amount of time or hardware to train. This type of research and technology is necessary for uninterrupted energy generation and distribution due to the ever-increasing demands and complexity of our energy grids.
 
 \subsection{Key Findings}
-XGBoost performs surprisingly well in this domain at most forecast horizons, greatly improving over the baseline methods. On top of its performance the computational demands are very low and training takes negligible time compared to other machine learning and neural network-based methods. Predictions are also performed very quickly once the tree has been fitted. However, it may be susceptible to data drift as new data is introduced, requiring it to be refitted.
+Ensemble gradient-boosted tree methods such as XGBoost performs surprisingly well in this domain at most forecast horizons, greatly improving over the baseline methods. On top of its performance the computational demands are very low and training takes negligible time compared to other machine learning and neural network-based methods. Predictions are also performed very quickly once the tree has been fitted. However, it may be susceptible to data drift as new data is introduced, requiring it to be refitted.
 
 Statistical methods such as MSTL and Holt-Winters models perform best at short horizon forecasts. Holt-Winters should only be used in forecasts horizon lengths in which there is only one predominant seasonality otherwise it needs to be augmented to handle multiples.
 
-N-HiTS even though was computationally the most expensive, performed well on shorter forecast horizons. As it was built for long-term horizons, no doubt it would also excel at them when fitted with the full training set.
+Deep learning methods such as N-HiTS, even though they were computationally the most expensive and were trained on a mere 30 days, performed well on shorter forecast horizons during this testing. However, using them on shorter forecast horizon lengths can be inefficient. Nevertheless, as they were built for long-term horizons, there is little doubt they would also excel at them when fitted with the full training set.
 
 \subsection{Future Work}
 Training and testing should be rerun on more robust hardware so every model can be tested on each forecast horizon. Also, more attention should be given to computational efficiency and statistical measures of training and prediction times across each model and forecast horizon. This would help give a clearer picture of which model to choose in what situations.
+
+Further data processing and feature engineering on a per horizon basis could gain better performance out of several models. For instance, models that struggle with capturing multiple seasonal periods may benefit from adding Fourier series or applying signal smoothing methods, smoothing smaller seasonal periods to gain performance in longer horizons.
 
 \section{Appendices}
 Appendix A is on the page after references.
@@ -546,7 +548,7 @@ Luna, for breaking up the hyper-focused monotony with mind-clearing afternoon wa
 \onecolumn
 %%
 %% If your work has an appendix, this is the place to put it.
-\appendix{Appendix A}
+\subsection{Appendix A}
 
   \begin{figure*}[hbt!]
     \includegraphics[width=\textwidth]{Images/Results_Composed.png}
