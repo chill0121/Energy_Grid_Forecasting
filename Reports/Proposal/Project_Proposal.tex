@@ -1,0 +1,399 @@
+\documentclass[sigconf]{acmart}
+\usepackage{tabulary}
+\usepackage{booktabs}
+%%
+%% \BibTeX command to typeset BibTeX logo in the docs
+\AtBeginDocument{%
+  \providecommand\BibTeX{{%
+    Bib\TeX}}}
+
+%% Rights management information.  This information is sent to you
+%% when you complete the rights form.  These commands have SAMPLE
+%% values in them; it is your responsibility as an author to replace
+%% the commands and values with those provided to you when you
+%% complete the rights form.
+\setcopyright{none}
+\copyrightyear{2024}
+\acmYear{2024}
+\acmDOI{XXXXXXX.XXXXXXX}
+
+%% These commands are for a PROCEEDINGS abstract or paper.
+\acmConference[Data Mining Project '24]{Data Mining Project}{April 2024}{Boulder, CO}
+%%
+%%  Uncomment \acmBooktitle if the title of the proceedings is different
+%%  from ``Proceedings of ...''!
+%%
+%%\acmBooktitle{Woodstock '18: ACM Symposium on Neural Gaze Detection,
+%%  June 03--05, 2018, Woodstock, NY}
+%% \acmISBN{978-1-4503-XXXX-X/18/06}
+
+%%
+%% Submission ID.
+%% Use this when submitting an article to a sponsored event. You'll
+%% receive a unique submission ID from the organizers
+%% of the event, and this ID should be used as the parameter to this command.
+%%\acmSubmissionID{123-A56-BU3}
+
+%%
+%% For managing citations, it is recommended to use bibliography
+%% files in BibTeX format.
+%%
+%% You can then either use BibTeX with the ACM-Reference-Format style,
+%% or BibLaTeX with the acmnumeric or acmauthoryear sytles, that include
+%% support for advanced citation of software artefact from the
+%% biblatex-software package, also separately available on CTAN.
+%%
+%% Look at the sample-*-biblatex.tex files for templates showcasing
+%% the biblatex styles.
+%%
+
+%%
+%% The majority of ACM publications use numbered citations and
+%% references.  The command \citestyle{authoryear} switches to the
+%% "author year" style.
+%%
+%% If you are preparing content for an event
+%% sponsored by ACM SIGGRAPH, you must use the "author year" style of
+%% citations and references.
+%% Uncommenting
+%% the next command will enable that style.
+%%\citestyle{acmauthoryear}
+
+
+%%
+%% end of the preamble, start of the body of the document source.
+\begin{document}
+
+%%
+%% The "title" command has an optional parameter,
+%% allowing the author to define a "short title" to be used in page headers.
+\title{Energy Grid Forecasting and Anomaly Detection}
+
+%%
+%% The "author" command and its associated commands are used to define
+%% the authors and their affiliations.
+%% Of note is the shared affiliation of the first two authors, and the
+%% "authornote" and "authornotemark" commands
+%% used to denote shared contribution to the research.
+
+\author{Cody Hill}
+\affiliation{%
+  \institution{University of Colorado Boulder}
+  \city{Boulder}
+  \country{USA}}
+\email{cody.hill-1@colorado.edu}
+
+
+%%
+%% By default, the full list of authors will be used in the page
+%% headers. Often, this list is too long, and will overlap
+%% other information printed in the page headers. This command allows
+%% the author to define a more concise list
+%% of authors' names for this purpose.
+\renewcommand{\shortauthors}{C. Hill}
+
+%%
+%% The abstract is a short summary of the work to be presented in the
+%% article.
+\begin{abstract}
+Energy forecasting is a vital part of today's energy markets and operations. It is used to set the cost of electricity, determine when power generation should be increased, and decide when power needs to be directed to or from other regions of the electrical grid. Electrical energy demand continues to rise, especially with the recent widespread adoption of electric vehicles and heat pumps. As a result, the electrical grid will need to become more robust and adaptive as this increase in demand comes in tandem with a transition away from fossil fuels and into a more diversified energy market and with it, more complex cycles. These circumstances make accurate forecasting and periodicity identification of electrical loads and generation that much more important, and it is necessary to research the differences in forecasting applications and relevance in various short-term, medium-term, and long-term settings.
+
+Many of the statistical time series forecasting techniques of the past are still in use today, each with their own strengths and weaknesses, often trading compute efficiency with lesser accuracy in long-term forecast horizons or ability to capture multiple seasonal periods. More modern machine learning models and neural network-based architectures tend to generalize through forecasting horizons better, but often at great cost of compute resources making them inefficient for short forecast horizon forecasts. Though because of the potential for complexity of energy load patterns, both categories see benefits in task-specific tuning. By evaluating each forecasting model's accuracy across various context windows and forecasting horizons, this project presents a thorough comparison on which techniques are most relevant in the task-specific energy grid context and forecast horizons.
+\end{abstract}
+
+%%
+%% The code below is generated by the tool at http://dl.acm.org/ccs.cfm.
+%% Please copy and paste the code instead of the example below.
+%%
+\begin{CCSXML}
+<ccs2012>
+   <concept>
+       <concept_id>10002950.10003648.10003688.10003693</concept_id>
+       <concept_desc>Mathematics of computing~Time series analysis</concept_desc>
+       <concept_significance>500</concept_significance>
+       </concept>
+   <concept>
+       <concept_id>10010147.10010257.10010258.10010259.10010264</concept_id>
+       <concept_desc>Computing methodologies~Supervised learning by regression</concept_desc>
+       <concept_significance>500</concept_significance>
+       </concept>
+   <concept>
+       <concept_id>10010147.10010257.10010293.10003660</concept_id>
+       <concept_desc>Computing methodologies~Classification and regression trees</concept_desc>
+       <concept_significance>300</concept_significance>
+       </concept>
+   <concept>
+       <concept_id>10010147.10010257.10010293.10010075.10010295</concept_id>
+       <concept_desc>Computing methodologies~Support vector machines</concept_desc>
+       <concept_significance>300</concept_significance>
+       </concept>
+   <concept>
+       <concept_id>10010147.10010257.10010293.10010294</concept_id>
+       <concept_desc>Computing methodologies~Neural networks</concept_desc>
+       <concept_significance>300</concept_significance>
+       </concept>
+   <concept>
+       <concept_id>10010405.10010481.10010487</concept_id>
+       <concept_desc>Applied computing~Forecasting</concept_desc>
+       <concept_significance>500</concept_significance>
+       </concept>
+ </ccs2012>
+\end{CCSXML}
+
+\ccsdesc[500]{Mathematics of computing~Time series analysis}
+\ccsdesc[500]{Computing methodologies~Supervised learning by regression}
+\ccsdesc[300]{Computing methodologies~Classification and regression trees}
+\ccsdesc[300]{Computing methodologies~Support vector machines}
+\ccsdesc[300]{Computing methodologies~Neural networks}
+\ccsdesc[500]{Applied computing~Forecasting}
+
+%%
+%% Keywords. The author(s) should pick words that accurately describe
+%% the work being presented. Separate the keywords with commas.
+\keywords{time series forecasting, anomaly detection, energy load, renewables, energy grid}
+%% A "teaser" image appears between the author and affiliation
+%% information and the body of the document, and typically spans the
+%% page.
+\begin{teaserfigure}
+  \includegraphics[width=\textwidth]{Images/Energy_Gen_Teaser.png}
+  \caption{Energy Generated in Megawatts (MW) by Fuel Type.}
+  \Description{}
+  \label{fig:teaser}
+\end{teaserfigure}
+
+%%
+%% This command processes the author and affiliation and title
+%% information and builds the first part of the formatted document.
+\maketitle
+
+\section{Author's Note}
+This document is to be used as a project proposal for the beginning planning stages of the project as well as a living-document as the project progresses. Up until project completion when a new version will be created to fill in the results.
+
+\section{Introduction}
+Energy forecasting is an important task to not only determine the expected load on the energy grid and the requirements of energy providers to meet that demand by either ramping up production or diverting sources altogether \cite{Hong16}. Identifying hourly, daily, seasonal, or even yearly energy demands accurately has substantial impact on not only the logistics of the infrastructure of our energy grid, but also the complex energy marketplace. These intervals, or forecast horizons, in the context of predictive models are defined in Table 1. Short-term forecasts can be useful for players in power markets where prices dynamically shift based on generation supply, customer demand, and financial spot and derivative contracts which are all based on energy forecasting \cite{Bunn04}. Very short-term forecasts can be important for power distributors and operators that want to meet customer demands more efficiently. Long-term forecasts are important in infrastructure planning and energy provider and distributers long-term planning. An example of a long-term forecast can be seen in Figure 2.
+
+In the past this predictive role was largely upheld with statistical point-estimate models, but with the growth of our predictive models along with the diversification of the energy grid, more modern probabilistic interval forecasting techniques have begun to be used \cite{Lee21, Weron14, Hong16}. This diversification of the energy grid not only comes from energy reforms by way of deregulating the national electric market in the 1990's, but emerging cultural desires and improved technology in renewable energies, driving a need for a better electrical grid \cite{Joskow01}.
+
+  \begin{figure}[hbt!]
+    \includegraphics[width=\columnwidth]{Images/Forecast.png}
+    \caption{Long-Term Forecast of Natural Gas Energy Generation Using Meta's Prophet Model. Actual observations are represented by the blue points, forecasted fit and predictions are in teal and purple respectively.}
+    \Description{}
+    \label{fig:forecast}
+  \end{figure}
+
+Electricity generation has always been mostly an on-demand industry and largely continues to be, where the energy we generate needs to be transmitted and used within a short period of time because we lack efficient systems for energy storage at scale \cite{Lai21}. This fact presents additional complications when many renewable energies only produce energy in certain conditions, making its effective use more reliant on forecasting to navigate a more diverse and complex power grid. Additionally, with the cultural and regulatory push towards end-users adopting the use of electric appliances, electric vehicles, and heat pumps, energy demand will continue to change \cite{Archsmith22}. These circumstances mean accurate forecasting is becoming even more important with improvements having the potential to better reduce reliance on fossil-fuel energies by more efficiently filling in gaps of energy demands with a more diversified and efficient energy grid.
+
+\begin{table}
+\centering
+\caption{Defining prediction forecast horizon intervals. The forecast horizon determines how far into the future a forecast model predicts.}
+\begin{tabular}{clc}
+\toprule
+\hfill \textbf{No}. & \hfil \textbf{Forecast Horizon Intervals} & \textbf{Duration}\\
+\cmidrule(lr){1-1}\cmidrule(rl){2-2}\cmidrule(rl){3-3}
+  1 & Very Short-Term & $ X < $ 1 Hour \\
+  2 & Short-Term  & 1 Hour $ \leq X < $ 1 Week  \\   
+  3 & Medium-Term & 1 Week $ < X \leq $ 1 Year  \\   
+  4 & Long-Term & $ X > $ 1 Year  \\ 
+  \bottomrule
+\end{tabular}
+\end{table}
+
+There is little consensus among researchers and professionals about what exemplifies state-of-the-art in time series forecasting. This seems to be due to many things including that time series forecasting is heavily task-specific, meaning one model may perform well with one type of data and forecast horizon, but might perform poorly when compared to other techniques with a different horizon or data type \cite{Yue21}. This is why it is still important to experiment and compare forecasting techniques on domain-specific time series data.
+
+\section{Related Work}
+Seasonal Autoregressive Integrated Moving Average (SARIMA) and Exponential Smoothing models tend to be useful in short and medium-term forecasts but can experience limitations modeling complex periodicity and interactions \cite{Muzaffar19, Hopf23}. Newer, but certainly not state-of-the-art, machine learning techniques such as Support Vector Machines, XGBoost, and a variety of Long Short-Term Memory (LSTM) network architectures tend to generalize better and excel across multiple forecast horizons \cite{Sun22, Muzaffar19}.
+
+Hybrid models and ensemble methods, utilizing a variety of preprocessing techniques and combining models into a unified framework, are becoming more popular as of late. The process typically involves splitting the job of extracting different types of features from the data, say the temporal and spatial relationships of the time series, and feeding those outputs into yet another separate model to perform the forecasting \cite{Hua23}. This technique combines the strengths of multiple models resulting in improved results across all forecast horizons \cite{Hua23, Hopf23}. Many of these still utilize LSTM layers as their attention mechanism \cite{Sun22}.
+
+Transformer-based models and other frameworks developed and popularized in the Large Language Model (LLM) space have found a foothold in time series forecasting in the last few years as well, but their use in time series forecasting is still being researched \cite{Zeng22}. Similar to the LSTM, transformer-based models capture complex context and relationships in data, but across greater distances of the training corpus with increased efficiency because of their ability to be parallelized effectively \cite{Zheng24}. This type of model benefits from pre-training on a large corpus of diverse data which simply does not exist in the public domain for time series data \cite{Hug24}. With more time and data, researchers believe transformer-based models can be effective at time series forecasting \cite{Hug24, Zheng24}.
+
+\section{Methods and Proposed Work}
+Several models stemming from different statistical and machine-learning families will be trained to perform electricity load forecasting as well as electricity generation by fuel type across the different forecast horizon intervals listed in Table 1. Each model's amount of compute required for training and evaluation scores will be compared across different forecast horizons. See evaluation section for more details on the specific metrics used.
+
+  \subsection{Data}
+  Data was collected by the Pennsylvania-New Jersey-Maryland Interconnection (PJM). PJM is a regional electrical transmission organization which coordinates electricity transmission in all or parts of Delaware, Illinois, Indiana, Kentucky, Maryland, Michigan, New Jersey, North Carolina, Ohio, Pennsylvania, Tennessee, Virginia, West Virginia, and the District of Columbia \cite{PJMZone24}. A map of this can bee seen in Figure 3.
+  
+  \begin{table}[hbt!]
+\centering
+\caption{Dataset size and date ranges.}
+\begin{tabular}{lrl}
+\toprule
+\textbf{Dataset} & \hfil \textbf{Size (Rows)} & \textbf{Date Range} \\
+\cmidrule(rl){1-1}\cmidrule(rl){2-2}\cmidrule(rl){3-3}
+  Hourly Load & 5,446,243 & 1993/01/01 - 2024/03/27 \\
+  Hourly Generation & 783,663 & 2016/01/01 - 2024/03/28 \\   
+  Avg Hourly Weather & TBD & TBD  \\   
+  \bottomrule
+\end{tabular}
+\end{table}
+  
+  Two sources of data from PJM are being utilized here, hourly load in megawatt-hours verified by the individual electric distribution companies and hourly electrical generation aggregated by fuel type, also in megawatts \cite{PJMLoad24}. The hourly load data is flagged with geographical location data which will be leveraged to include regional weather data as a covariate in the models. An overview of the datasets can be seen in Table 2.
+  
+  \begin{figure}
+    \includegraphics[width=\columnwidth]{Images/Zones.png}
+    \caption{Regional Transmission Zones Labeled by Distributor IDs \protect \cite{PJM24}.}
+    \Description{}
+    \label{fig:zone}
+  \end{figure}
+
+  \subsection{Tools and Techniques}
+  First these three datasets will be datetime aligned and analyzed for outliers. The different generation sources and load data will then be analyzed and plotted for historical trends and to identify periodicity (cycles) at different context window intervals which will help set expected baselines for the forecast horizons. Some minor feature engineering will be performed on the datasets including encoding days of the week into the feature matrix since energy demands change throughout the week. Once the data has been properly aggregated and aligned the data will then be split into a training, validation, and test split.
+
+Models of varying complexity and methodology will be used to better represent the broad spectrum of techniques used today, and to attempt to capture a good representation of which models work best for the different forecast horizons. 
+
+\textbf{Proposed models}:
+\\
+Baseline
+\begin{itemize}
+    \item{Naive Forecast Model}
+\end{itemize}
+Statistical
+\begin{itemize}
+    \item{Seasonal Autoregressive Integrated Moving Average (SARIMA)}
+    \item{Vector Autoregression (VAR)}
+\end{itemize}
+Machine Learning
+\begin{itemize}
+    \item{Support Vector Machine (SVM)}
+    \item{XGBoost}
+\end{itemize}
+Deep Learning
+\begin{itemize}
+    \item{Long Short-Term Memory (LSTM) Networks}
+    \item{Transformer Networks}
+\end{itemize}
+Pre-trained
+\begin{itemize}
+    \item{Time Series to Vector (TS2Vec)}
+\end{itemize}
+
+Some models may require data transformation or normalization to perform effectively. These changes will be listed here.
+
+\section{Evaluation}
+
+\subsection{Data Split}
+The data will be split into a 70/20/10 training, validation, testing split. A validation set is necessary here because several of the proposed forecasting models will require hyperparameter tuning. Once the data has been aggregated, cleaned, and finalized the exact ratio may be adjusted to ensure the test set is large enough to span the largest forecast horizon at least one or several times, depending on what is feasible with the data on hand.
+
+During the splitting process extra considerations will be taken to ensure there are no temporal conflicts between sets (i.e. part of the test set is overlapping a part of the training set). Also, that each set contains a reasonable amount of periodicity. 
+
+\subsection{Metrics}
+Symmetric Mean Absolute Percentage Error (sMAPE) will be the evaluation metric used to compare all models. This will ensure comparisons of error across different models and forecasting horizons are normalized. 
+
+\begin{equation}
+\text{sMAPE} =\frac{200}{n}\sum_{i=1}^{n}\frac{\lvert y_i - \hat{y_i} \rvert}{\lvert y_i \rvert + \lvert \hat{y_i} \rvert}
+\end{equation}
+
+where $y_i$ and $\hat{y_i}$ are the actual values and forecasted values respectively, and $n$ is the number of points in the set.
+
+One possible limitation of sMAPE is if a predicted value or actual value equals zero, the metric balloons to the maximum error value, and if both equals zero, the metric is undefined. Chosen evaluation metrics often have strengths and weaknesses, and it is yet unclear if this limitation will occur here -- especially since power generation by different fuel types may have a periodicity that includes zero power generation.
+
+Root Mean Squared Error (RMSE) will also be used in model evaluation to complement sMAPE. The value of including RMSE is that it is an easily interpretable quantitative metric resulting in a value that is in the same unit as the response. It also heavily penalizes predictions the further they are from the actual value. Alternatively, Normalized RMSE (NRMSE) will be considered if it is found that different models output at different scales.
+
+\begin{equation}
+\text{RMSE} =\sqrt\frac{\sum_{i=1}^{n}(y_i - \hat{y_i})^2}{n}
+\end{equation}
+
+where $y_i$ and $\hat{y_i}$ are the actual values and forecasted values respectively, and $n$ is the number of points in the set.
+
+\section{Discussion}
+
+More discussions and analysis will be added here when the project has been completed.
+
+\subsection{Project Timeline}
+
+Table 3 outlines the specific tasks and their projected schedule.
+
+\begin{table}[hbt!]
+\centering
+\caption{A general framework onto which the project will progress. This timeline is subject to change.}
+\begin{tabular}{ll | c | c}
+\toprule
+\textbf{Timeline} & \textbf{Agenda Item} & \hfil \textbf{Progress} & \hfil \textbf{Done} \\
+\cmidrule(rl){1-1}\cmidrule(rl){2-2}\cmidrule(rl){3-3}\cmidrule(rl){4-4}
+  Days 1 - 5 & Data Mining & \textbf{X} & \\
+  \cmidrule(rl){1-4}
+   & \hspace{3mm}Hourly Load Data & -- & \textbf{X} \\   
+   & \hspace{3mm}Hourly Generation Data & -- & \textbf{X} \\   
+   & \hspace{3mm}Weather Data & \textbf{X} & \\   
+   & Cleaning/Preprocessing & \textbf{X} & \\  
+   \cmidrule(rl){2-4} 
+   & \hspace{3mm}Datetime Alignment & \textbf{X} & \\   
+   & \hspace{3mm}Aggregate by Zones & \textbf{X} & \\   
+   & \hspace{3mm}Outlier Inspection & & \\   
+   & \hspace{3mm}Corrupted Data Removal & & \\  
+   & Exploratory Data Analysis & & \\  
+   \cmidrule(rl){2-4} 
+   & Train/Val/Test Split & & \\  
+   \cmidrule(rl){2-4} 
+  Days 6-8 & Anomaly Detection & & \\  
+   \cmidrule(rl){1-4} 
+   & Forecast Model Setup & & \\  
+   \cmidrule(rl){2-4} 
+   & \hspace{3mm}Training & & \\  
+   & \hspace{3mm}Val. Optimizations & & \\  
+   & Build Eval. Functions & & \\  
+   \cmidrule(rl){2-4} 
+  Days 9-10 & Test Results & & \\  
+  \cmidrule(rl){1-4} 
+   & Discussion & & \\
+   \cmidrule(rl){2-4}   
+   & Conclusion & & \\  
+   \cmidrule(rl){2-4} 
+  \bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Potential Challenges}
+A few challenges may arise impeding progress or causing the project to fall behind schedule are expected to be the following. 
+Generally, properly fitting the data to the number of proposed forecast models within the timeline may pose a challenge. Specifically, the neural-network architectures can take considerable time to build from the ground up without intimate knowledge and experience of their specific architectures. Also, completely fleshing out the three goals of the project on schedule may be cause for concern and need reevaluation -- anomaly detection, hourly load forecasting, and hourly energy generation forecasting.
+
+The granularity of the data may post issues in accurately forecasting the shorter forecast horizons. Since all collected data has a time-step (sample rate) granularity of one hour, predictions less than one hour have little basis in reality. Data with smaller a time-step would be required for accurate shorter forecast horizons.
+
+\subsection{Alternate Approaches}
+If the project is running behind the timeline a few different approaches can be considered to make the target deadlines. 
+
+\begin{enumerate}
+  \item The number of models can be reduced but leaving at least one remaining from each model type. 
+  \item In the case of some of the neural-network based architectures and machine-learning approaches, complexity can be reduced by utilizing more out-of-the-box approaches/models. 
+  \item Instead of forecasting both hourly load usage and generation by fuel type, the scope of the project can be reduced to focus on just one of these domains.
+  \item Further reduce the scope to solely focus on anomaly detection.
+\end{enumerate}
+
+\section{Conclusion}
+By analyzing and modeling energy time series data we can efficiently and accurately forecast into the future different interval sizes, or forecast horizons, which correspond to real-world decisions. Modern techniques in time series forecasting have reduced the errors in all forecast horizon intervals and continue to generalize those prediction abilities across many domains. This type of research and technology is necessary for uninterrupted energy generation and distribution due to the ever-increasing demands on our energy grids.
+
+\subsection{Key Findings}
+To be completed upon project completion.
+\subsection{Future Work}
+To be completed upon project completion.
+
+\section{Appendices}
+PLACEHOLDER
+
+
+%%
+%% The acknowledgments section is defined using the "acks" environment
+%% (and NOT an unnumbered section). This ensures the proper
+%% identification of the section in the article metadata, and the
+%% consistent spelling of the heading.
+\begin{acks}
+ \hspace{3mm} Sqyd, for always brewing the morning coffee -- I know it's 8 cups of water, now.
+
+Luna, for breaking up the hyper-focused monotony with mind-clearing afternoon walks.
+\end{acks}
+
+%%
+%% The next two lines define the bibliography style to be used, and
+%% the bibliography file.
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{References_Proposal}
+
+
+%%
+%% If your work has an appendix, this is the place to put it.
+\appendix
+
+\end{document}
+\endinput
+%%
+%% End of file `sample-sigconf.tex'.
