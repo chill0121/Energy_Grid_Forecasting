@@ -120,7 +120,7 @@ Zones: AE, CE, DOM, JC, PEP – selected for geographic diversity and time serie
 
 ## Key Insights
 
-- **XGBoost** offered the best trade-off of accuracy and efficiency.
+- **XGBoost** offered the best trade-off of accuracy and efficiency, though requires extensive feature engineering and retraining.
 - **Statistical models** still shine in short-horizon settings with clear seasonality.
 - **Deep learning models**, while powerful, demand substantial compute for modest performance gains.
 - Hardware constraints significantly impact feasible modeling strategies, especially with large datasets.
