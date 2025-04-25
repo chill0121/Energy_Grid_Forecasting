@@ -4,7 +4,7 @@
 
 **For full technical details**, see:
 - [`/Reports/Final/Project_Final_Report.pdf`](./Reports/Final/Project_Final_Report.pdf) – Technical write-up, results, methods
-- [`/Energy_Forecasting.ipynb`](./Energy_Forecasting.ipynb) – Code, visualizations, and explanation and reasoning.
+- [`/Energy_Forecasting.ipynb`](./Energy_Forecasting.ipynb) – Code, visualizations, and explanation and reasoning
 
 ---
 
