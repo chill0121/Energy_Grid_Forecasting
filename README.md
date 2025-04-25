@@ -1,13 +1,136 @@
 # Energy Grid Forecasting
 
-*Statistical, machine learning, and deep learning-based time series forecasting methods compared across 5 energy load datasets and 6 forecast horizon lengths.*
+> Time series forecasting of energy load using statistical, machine learning, and deep learning models across short, medium, and long-term forecast horizons.
+
+**For full technical details**, see:
+- [`/Reports/Final/Project_Final_Report.pdf`](./Reports/Final/Project_Final_Report.pdf) – Technical write-up, results, methods
+- [`/Energy_Forecasting.ipynb`](./Energy_Forecasting.ipynb) – Code, visualizations, and explanation and reasoning.
 
 ---
 
-Energy forecasting is a vital part of today's energy markets and operations. It is used to set the cost of electricity, determine when power generation should be increased, and decide when power needs to be directed to or from other regions of the electrical grid. Electrical energy demand continues to rise, especially with the recent widespread adoption of electric vehicles and heat pumps. As a result, the electrical grid will need to become more robust and adaptive as this increase in demand comes in tandem with a transition away from fossil fuels and into a more diversified energy market and with it, more complex cycles. These circumstances make accurate forecasting and periodicity identification of electrical loads and generation that much more important, and it is necessary to research the differences in forecasting applications and relevance in various short-term, medium-term, and long-term settings.
+## Overview
 
-Many of the statistical time series forecasting techniques of the past are still in use today, each with their own strengths and weaknesses, often trading compute efficiency with lesser accuracy in long-term forecast horizons or ability to capture multiple seasonal periods. More modern machine learning models and neural network-based architectures tend to generalize through forecasting horizons better, but often at great cost of compute resources making them inefficient for short forecast horizon forecasts. Though because of the potential for complexity of energy load patterns, both categories see benefits in task-specific tuning. By evaluating each forecasting model's accuracy across various context windows and forecasting horizons, this project presents a thorough comparison on which techniques are most relevant in the task-specific energy grid context and each forecast horizon.
+This project investigates the accuracy and efficiency of various forecasting models when applied to electrical energy demand data from the PJM grid. The aim is to determine how model selection should be tailored to different forecast horizon intervals—from 6 hours to 2 years—while considering compute limitations, seasonality, and real-world deployment constraints.
 
 ---
 
+## Repository Structure
 
+```bash
+Energy-Grid-Forecasting/
+├── data/                    # Raw input data (energy, weather)
+├── models/                  # Saved models, predictions, checkpoints
+├── reports/                 # Proposals, final report, presentation slides
+├── images/                  # Visualizations used in analysis & reports
+├── Energy_Forecasting.ipynb # Jupyter notebook | main project code
+├── README.md                # This file
+└── TODO_Tasks.md            # Project to-do list and future ideas
+```
+
+---
+
+## Datasets Used
+
+| Source            | Data                       | Period       | Format     |
+|------------------|----------------------------|--------------|------------|
+| PJM ISO          | Hourly load (by zone)      | 1993–2024    | CSV (gzip) |
+| NOAA RCC ACIS    | Daily weather summaries    | 1993–2024    | CSV (gzip) |
+
+Zones: AE, CE, DOM, JC, PEP – selected for geographic diversity and time series quality.
+
+---
+
+## Pipeline & Methodology
+
+### Forecast Horizons
+
+| Interval         | Definition                |
+|------------------|---------------------------|
+| Very Short-Term  | < 1 Hour                  |
+| Short-Term       | 1 Hour to < 1 Week        |
+| Medium-Term      | 1 Week to ≤ 1 Year        |
+| Long-Term        | > 1 Year                  |
+
+### Preprocessing
+- Missing timestamps filled via interpolation
+- Outlier removal via rolling window median replacement
+- Merged hourly load + daily weather data by region
+
+### Feature Engineering
+- Temporal encodings (hour, day, week, month, year)
+- Lag features at 6H, 1D, 1W, 1M
+- Fourier transform features
+- First & second-order derivatives
+- Rolling means (30 days)
+
+### Models Compared
+
+| Type              | Models                                  |
+|-------------------|------------------------------------------|
+| Baseline          | Seasonal Naive, Mean                    |
+| Statistical       | Holt-Winters, MSTL                      |
+| Machine Learning  | SVR (RBF Kernel), XGBoost               |
+| Deep Learning     | N-HiTS (Neural Hierarchical Interp.)    |
+
+> SARIMA and TFT were removed due to hardware constraints.
+
+---
+
+## Evaluation
+
+### Metrics
+- **sMAPE**
+- **RMSE**, **NRMSE** for scale-sensitive and zone comparison evaluation
+
+### Time-Based Split
+- **Train**: 1993–2018
+- **Validation**: 2019–2021
+- **Test**: 2022–2024
+
+---
+
+## Results Summary
+
+### Best Models by Horizon
+
+| Horizon    | Best Model       | Notes                                                  |
+|------------|------------------|--------------------------------------------------------|
+| 6 Hours    | MSTL / N-HiTS    | Statistical & DL models performed well                |
+| 3 Days     | XGBoost / SVR    | ML models outperform others in 4/5 zones              |
+| 1 Week     | XGBoost          | Outperformed both statistical and deep learning       |
+| 1 Month    | XGBoost          | Retained edge over others                              |
+| 6 Months   | XGBoost          | Some statistical models fell below baseline           |
+| 2 Years    | XGBoost          | ML models generalize best to long-term forecasts      |
+
+### Compute Efficiency (M1 MacBook, 16GB RAM)
+
+| Model         | Train+Predict Time   |
+|---------------|----------------------|
+| Seasonal Naive| Instant              |
+| Mean          | Instant              |
+| Holt-Winters  | ~9 minutes           |
+| MSTL          | ~95 minutes          |
+| SVR           | ~59 minutes          |
+| XGBoost       | ~2 minutes           |
+| N-HiTS        | 9 → ~570 minutes*    |
+
+\* Extrapolated estimate for full training set
+
+---
+
+## Key Insights
+
+- **XGBoost** offered the best trade-off of accuracy and efficiency.
+- **Statistical models** still shine in short-horizon settings with clear seasonality.
+- **Deep learning models**, while powerful, demand substantial compute for modest performance gains.
+- Hardware constraints significantly impact feasible modeling strategies, especially with large datasets.
+
+---
+
+## Future Work
+
+- Test SARIMA & TFT models on more powerful hardware
+- Automate model tuning with Optuna/Ray Tune
+- Develop zone-specific ensemble models
+- Build an interactive dashboard for operators and forecasters
+- Reintroduce anomaly detection module in post-processing
