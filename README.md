@@ -18,10 +18,10 @@ This project investigates the accuracy and efficiency of various forecasting mod
 
 ```bash
 Energy-Grid-Forecasting/
-├── data/                    # Raw input data (energy, weather)
-├── models/                  # Saved models, predictions, checkpoints
-├── reports/                 # Proposals, final report, presentation slides
-├── images/                  # Visualizations used in analysis & reports
+├── Data/                    # Raw input data (energy, weather)
+├── Models/                  # Saved models, predictions, checkpoints
+├── Reports/                 # Proposals, final report, presentation slides
+├── Images/                  # Visualizations used in analysis & reports
 ├── Energy_Forecasting.ipynb # Jupyter notebook | main project code
 ├── README.md                # This file
 └── TODO_Tasks.md            # Project to-do list and future ideas
